@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="ZoneJeu">
+    <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/FondMenu.jpg"/>
         </Grid.Background>

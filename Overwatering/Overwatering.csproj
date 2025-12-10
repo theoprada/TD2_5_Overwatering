@@ -8,4 +8,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="FondMenu.jpg" />
+    <None Remove="pixel-art-farm-landscape-barn-260nw-2192418943.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="FondMenu.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="pixel-art-farm-landscape-barn-260nw-2192418943.webp" />
+  </ItemGroup>
+
 </Project>
