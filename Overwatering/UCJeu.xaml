@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Overwatering.UCMenuJeu"
+﻿<UserControl x:Class="Overwatering.UCJeu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,21 +6,25 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="ZoneJeu">
         <Grid.Background>
             <ImageBrush ImageSource="/FondMenu.jpg"/>
         </Grid.Background>
-        <Button Content="Jouer" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="124" FontFamily="Kristen ITC" FontSize="25" Foreground="#FFDEE022" Click="Button_Click">
+        <Button x:Name="butJouer" Content="Jouer" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="124" FontFamily="Kristen ITC" FontSize="25" Foreground="#FFDEE022">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Button Content="Paramètre" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,131,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC" Click="Button_Click_1">
+        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,131,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Label Content="Overwatering" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Foreground="#FFDEE022" FontSize="40" FontFamily="Kristen ITC"/>
+        <Label Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFDEE022" FontSize="40" FontFamily="Kristen ITC" Width="280">
+            <Label.Background>
+                <ImageBrush ImageSource="/Overwatering-10-12-2025 (1).png"/>
+            </Label.Background>
+        </Label>
         <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,185,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>

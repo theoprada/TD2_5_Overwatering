@@ -23,24 +23,25 @@ namespace Overwatering
         public MainWindow()
         {
             InitializeComponent();
-            AfficheJeu();
+            AfficheDemarrage();
         }
 
-        private void AfficheJeu()
+        private void AfficheDemarrage()
         {
             // crée et charge l'écran de démarrage
             UCJeu uc = new UCJeu();
 
             // associe l'écran au conteneur
             ZoneJeu.Content = uc;
-            uc.butDemarrer.Click += AfficherChoixPerso;
+            uc.butJouer.Click += AfficherJeu;
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void AfficherJeu(object sender, RoutedEventArgs e)
         {
-            Window1 parametreWindow = new Window1();
-            bool? rep = parametreWindow.ShowDialog();
+            UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
         }
+
     }
 }

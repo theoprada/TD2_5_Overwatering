@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,15 +16,13 @@ using System.Windows.Shapes;
 namespace Overwatering
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logique d'interaction pour UCJeux.xaml
     /// </summary>
-    public partial class UCJeu : UserControl
+    public partial class UCJeux : UserControl
     {
-        public UCJeu()
+        public UCJeux()
         {
             InitializeComponent();
         }
-
-
     }
 }

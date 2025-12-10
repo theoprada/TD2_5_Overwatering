@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="FondMenu.jpg" />
+    <None Remove="Overwatering-10-12-2025 %281%29.png" />
     <None Remove="pixel-art-farm-landscape-barn-260nw-2192418943.webp" />
   </ItemGroup>
 
@@ -17,6 +18,7 @@
     <Resource Include="FondMenu.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Overwatering-10-12-2025 (1).png" />
     <Resource Include="pixel-art-farm-landscape-barn-260nw-2192418943.webp" />
   </ItemGroup>
 
