@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="Overwatering.UCRegles"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Overwatering"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Règles du Jeu : 'Overwatering'" 
+                   Grid.Row="0"
+                   Foreground="#FFDEE022" 
+                   FontSize="32" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,20" 
+                   HorizontalAlignment="Center"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+
+                <TextBlock Text="💧 But du Jeu :" 
+                           Foreground="#7FFFD4" 
+                           FontSize="20" 
+                           FontWeight="SemiBold" 
+                           Margin="0,0,0,10"/>
+
+                <TextBlock Text="Dans AquaRun, vous contrôlez une goutte d'eau chargée d'atteindre le Bassin d'Évaporation en un minimum de temps. Collectez les bulles d'énergie pour recharger votre vitesse et évitez les sols Surchauffés qui réduisent votre taille. Le niveau est terminé lorsque vous atteignez le Bassin avec un niveau d'eau supérieur à 50%." 
+                           Foreground="White" 
+                           TextWrapping="Wrap" 
+                           Margin="0,0,0,25"/>
+
+                <TextBlock Text="🕹️ Commandes :" 
+                           Foreground="#7FFFD4" 
+                           FontSize="20" 
+                           FontWeight="SemiBold" 
+                           Margin="0,0,0,10"/>
+
+                <Grid Margin="10,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Flèches (ou ZQSD)" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Déplacement de la goutte" Foreground="White" Margin="15,5,0,5"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Espace" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Turbo (Consomme l'énergie collectée)" Foreground="White" Margin="15,5,0,5"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Échap" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Pause / Menu" Foreground="White" Margin="15,5,0,5"/>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button x:Name="butRetour" 
+                Content="Retour au Menu" 
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                Padding="15,5"
+                FontSize="16"
+                Background="#1E90FF" 
+                Foreground="White" 
+                Cursor="Hand"
+                Margin="0,20,0,0"/>
+
+    </Grid>
+</UserControl>

@@ -10,12 +10,12 @@
         <Grid.Background>
             <ImageBrush ImageSource="/FondMenu.jpg"/>
         </Grid.Background>
-        <Button x:Name="butJouer" Content="Jouer" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="124" FontFamily="Kristen ITC" FontSize="25" Foreground="#FFDEE022">
+        <Button x:Name="butJouer" Content="" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="124" FontFamily="Kristen ITC" FontSize="25" Foreground="#FFDEE022">
             <Button.Background>
-                <ImageBrush/>
+                <ImageBrush ImageSource="/Jouer-10-12-2025-removebg-preview.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,131,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
+        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="302,131,0,0" VerticalAlignment="Top" Height="40" Width="160" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
@@ -25,12 +25,17 @@
                 <ImageBrush ImageSource="/Overwatering-10-12-2025 (1).png"/>
             </Label.Background>
         </Label>
-        <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,185,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
+        <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,185,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC" Click="Button_Click">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
         <Button Content="@ Crédits" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="134" FontFamily="Kristen ITC" FontSize="19" Foreground="#FFDEE022">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="butRegles" Content="Règles" x:FieldModifier="public" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="631,365,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>

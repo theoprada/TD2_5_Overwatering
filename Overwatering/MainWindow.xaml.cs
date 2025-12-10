@@ -34,12 +34,19 @@ namespace Overwatering
             // associe l'écran au conteneur
             ZoneJeu.Content = uc;
             uc.butJouer.Click += AfficherJeu;
+            uc.butRegles.Click += AfficherRegles;
 
         }
 
         private void AfficherJeu(object sender, RoutedEventArgs e)
         {
             UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
+        }
+
+        private void AfficherRegles(object sender, RoutedEventArgs e)
+        {
+            UCRegles uc = new UCRegles();
             ZoneJeu.Content = uc;
         }
 
