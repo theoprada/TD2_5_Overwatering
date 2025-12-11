@@ -29,10 +29,10 @@ namespace Overwatering
         private void AfficheDemarrage()
         {
             // crée et charge l'écran de démarrage
-            UCJeu uc = new UCJeu();
+            UC_Menu uc = new UC_Menu();
 
             // associe l'écran au conteneur
-            ZoneJeu.Content = uc;
+            MainWindow.Content = uc;
             uc.butJouer.Click += AfficherJeu;
             uc.butRegles.Click += AfficherRegles;
 
@@ -40,14 +40,14 @@ namespace Overwatering
 
         private void AfficherJeu(object sender, RoutedEventArgs e)
         {
-            UCJeu uc = new UCJeu();
-            ZoneJeu.Content = uc;
+            UC_Menu uc = new UC_Menu();
+            MainWindow.Content = uc;
         }
 
         private void AfficherRegles(object sender, RoutedEventArgs e)
         {
-            UCRegles uc = new UCRegles();
-            ZoneJeu.Content = uc;
+            UC_Regles uc = new UC_Regles();
+            MainWindow.Content = uc;
         }
 
     }

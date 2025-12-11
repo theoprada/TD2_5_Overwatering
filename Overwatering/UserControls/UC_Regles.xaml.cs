@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Overwatering
 {
     /// <summary>
-    /// Logique d'interaction pour UCRegles.xaml
+    /// Logique d'interaction pour UC_Regles.xaml
     /// </summary>
-    public partial class UCRegles : UserControl
+    public partial class UC_Regles : UserControl
     {
-            public UCRegles()
+            public UC_Regles()
             {
                 InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace Overwatering
                     {
                     // Exemple : Changer le contenu pour afficher le Menu principal
                     // Vous devrez remplacer UCMenuJeu par le nom exact de votre UserControl de menu
-                        parentContentControl.Content = new UCJeu();
+                        parentContentControl.Content = new UC_Menu();
                     }
             }
     }

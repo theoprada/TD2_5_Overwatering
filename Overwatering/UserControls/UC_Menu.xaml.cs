@@ -14,9 +14,9 @@ namespace Overwatering
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class UCJeu : UserControl
+    public partial class UC_Menu : UserControl
     {
-        public UCJeu()
+        public UC_Menu()
         {
             InitializeComponent();
         }
