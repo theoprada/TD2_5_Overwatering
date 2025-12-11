@@ -8,7 +8,7 @@
             Title="MainWindow" Height="450" Width="800">
     <ContentControl x:Name="MainWindow">
         <ContentControl.Background>
-            <ImageBrush ImageSource="/FondMenu.jpg"> </ImageBrush>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"></ImageBrush>
         </ContentControl.Background>
     </ContentControl>
 </Window>
