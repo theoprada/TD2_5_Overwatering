@@ -12,10 +12,12 @@
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
         </Grid.Background>
         
-        <Button x:Name="butJouer" Content="" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="326,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="124" FontFamily="Kristen ITC" FontSize="25" Foreground="#FFDEE022">
-            <Button.Background>
-                <ImageBrush ImageSource="/Assets/ImagesMenu/JouerBoutton.png"/>
-            </Button.Background>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="OVERWATERING" FontSize="40" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,30">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10"/>
+                </TextBlock.Effect>
+            </TextBlock>
             
         </Button>
         
