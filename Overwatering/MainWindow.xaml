@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
             Title="MainWindow" Height="450" Width="800">
-    <ContentControl x:Name="MainWindow">
+    <ContentControl x:Name="FenetrePrincipal">
         <ContentControl.Background>
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"></ImageBrush>
         </ContentControl.Background>

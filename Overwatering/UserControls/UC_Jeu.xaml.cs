@@ -15,12 +15,9 @@ using System.Windows.Shapes;
 
 namespace Overwatering
 {
-    /// <summary>
-    /// Logique d'interaction pour UCJeux.xaml
-    /// </summary>
-    public partial class UCJeux : UserControl
+    public partial class UC_Jeu : UserControl
     {
-        public UCJeux()
+        public UC_Jeu()
         {
             InitializeComponent();
         }
