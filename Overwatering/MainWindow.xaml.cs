@@ -12,7 +12,7 @@ namespace Overwatering
             AfficheMenu();
         }
 
-        private void AfficheMenu()
+        public void AfficheMenu()
         {
             // création écran menu
             UC_Menu uc = new UC_Menu();
@@ -21,6 +21,7 @@ namespace Overwatering
             //boutons menu
             uc.butJouer.Click += AfficherJeu;
             uc.butRegles.Click += AfficherRegles;
+            uc.butCredit.Click += AfficherCredit;
 
         }
 
@@ -33,6 +34,12 @@ namespace Overwatering
         private void AfficherRegles(object sender, RoutedEventArgs e)
         {
             UC_Regles uc = new UC_Regles();
+            FenetrePrincipal.Content = uc;
+        }
+
+        private void AfficherCredit(object sender, RoutedEventArgs e)
+        {
+            UC_Credit uc = new UC_Credit();
             FenetrePrincipal.Content = uc;
         }
 

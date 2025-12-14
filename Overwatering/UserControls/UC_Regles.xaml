@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="20">
+    <Grid>
         <Grid.Background>
-            <ImageBrush/>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -27,22 +27,22 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
 
-                <TextBlock Text="💧 But du Jeu :" 
+                <TextBlock Text="But du Jeu :" 
                            Foreground="#7FFFD4" 
                            FontSize="20" 
                            FontWeight="SemiBold" 
-                           Margin="0,0,0,10"/>
+                           Margin="20,0,0,10"/>
 
-                <TextBlock Text="Dans AquaRun, vous contrôlez une goutte d'eau chargée d'atteindre le Bassin d'Évaporation en un minimum de temps. Collectez les bulles d'énergie pour recharger votre vitesse et évitez les sols Surchauffés qui réduisent votre taille. Le niveau est terminé lorsque vous atteignez le Bassin avec un niveau d'eau supérieur à 50%." 
-                           Foreground="White" 
+                <TextBlock Text=" Vous êtes une fleuriste qui doit remplir des commandes, pour préparer ces commandes vous devez plantez les graines adéquat " 
+                           Foreground="#FFDEE022" 
                            TextWrapping="Wrap" 
-                           Margin="0,0,0,25"/>
+                           Margin="30,0,0,25"/>
 
-                <TextBlock Text="🕹️ Commandes :" 
+                <TextBlock Text="Commandes :" 
                            Foreground="#7FFFD4" 
                            FontSize="20" 
                            FontWeight="SemiBold" 
-                           Margin="0,0,0,10"/>
+                           Margin="20,0,0,10"/>
 
                 <Grid Margin="10,0,0,20">
                     <Grid.ColumnDefinitions>
@@ -56,14 +56,14 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Flèches (ou ZQSD)" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Déplacement de la goutte" Foreground="White" Margin="15,5,0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Déplacement" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="ZQSD" Foreground="#FFDEE022" Margin="15,5,0,5"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Espace" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Turbo (Consomme l'énergie collectée)" Foreground="White" Margin="15,5,0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Commandes" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Arroser" Foreground="#FFDEE022" Margin="15,5,0,5"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Échap" FontWeight="Bold" Foreground="#F0E68C" Margin="0,5"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Pause / Menu" Foreground="White" Margin="15,5,0,5"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Échap" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Pause / Menu" Foreground="#FFDEE022" Margin="15,5,0,5"/>
                 </Grid>
 
             </StackPanel>
@@ -74,11 +74,17 @@
                 Grid.Row="2"
                 HorizontalAlignment="Center"
                 Padding="15,5"
-                FontSize="16"
-                Background="#1E90FF" 
-                Foreground="White" 
+                FontSize="16" 
+                Foreground="#FFDEE022" 
                 Cursor="Hand"
-                Margin="0,20,0,0"/>
+                Margin="0,5,0,15">
+            <Button.BorderBrush>
+                <ImageBrush/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </UserControl>

@@ -6,45 +6,51 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Grid x:Name="ZoneMenu">
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
         </Grid.Background>
-        
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-            <TextBlock Text="OVERWATERING" FontSize="40" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,30">
+
+        <Button x:Name="butJouer" HorizontalAlignment="Left" Width="242" FontFamily="Kristen ITC" Foreground="Black" Margin="298,91,0,295">
+            <Button.BorderBrush>
+                <ImageBrush/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+            <TextBlock Text="JOUER" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Height="47" Width="126">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="10"/>
                 </TextBlock.Effect>
             </TextBlock>
-            
+
         </Button>
-        
-        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="302,131,0,0" VerticalAlignment="Top" Height="40" Width="160" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
+
+        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="40" Width="160" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        
+
         <Label Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFDEE022" FontSize="40" FontFamily="Kristen ITC" Width="280">
             <Label.Background>
                 <ImageBrush ImageSource="/Assets/ImagesMenu/OverwateringTitre.png"/>
             </Label.Background>
         </Label>
-        
-        <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="314,185,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC" Click="Button_Click">
+
+        <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC" Click="Button_Click">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        
-        <Button Content="@ Crédits" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="134" FontFamily="Kristen ITC" FontSize="19" Foreground="#FFDEE022">
+
+        <Button x:Name="butCredit" Content="@ Crédits" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="134" FontFamily="Kristen ITC" FontSize="19" Foreground="#FFDEE022">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        
+
         <Button x:Name="butRegles" Content="Règles" x:FieldModifier="public" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="631,365,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
             <Button.Background>
                 <ImageBrush/>
