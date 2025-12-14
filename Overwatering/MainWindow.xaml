@@ -1,9 +1,13 @@
 ﻿<Window x:Class="Overwatering.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
-        <ContentControl x:Name="FenetrePrincipal" />
-    </Grid>
+        Title="Overwatering" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <Viewbox Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            <ContentControl x:Name="ContenuPrincipal" />
+        </Grid>
+    </Viewbox>
 </Window>

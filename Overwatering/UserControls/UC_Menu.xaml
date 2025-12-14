@@ -3,59 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Height="450" Width="800">
 
-    <Grid x:Name="ZoneMenu">
+    <UserControl.Resources>
+        <Style x:Key="BoutonCartoon" TargetType="Button">
+            <Setter Property="FontFamily" Value="Kristen ITC"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="Black" CornerRadius="8" Margin="0,4,0,0" Opacity="0.5"/>
+
+                            <Border x:Name="border" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="3" 
+                                    CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentPresenter.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Color="Black" BlurRadius="2"/>
+                                    </ContentPresenter.Effect>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <Button x:Name="butJouer" HorizontalAlignment="Left" Width="242" FontFamily="Kristen ITC" Foreground="Black" Margin="298,91,0,295">
-            <Button.BorderBrush>
-                <ImageBrush/>
-            </Button.BorderBrush>
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-            <TextBlock Text="JOUER" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Height="47" Width="126">
-                <TextBlock.Effect>
-                    <DropShadowEffect Color="Black" BlurRadius="10"/>
-                </TextBlock.Effect>
-            </TextBlock>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-        </Button>
+            <Image Source="/Assets/ImagesMenu/OverwateringTitre.png" 
+                   Width="500" 
+                   Margin="0,0,0,10">
+                <Image.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5"/>
+                </Image.Effect>
+            </Image>
 
-        <Button x:Name="butParametre" Content="Paramètres" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" Margin="0,160,0,0" VerticalAlignment="Top" Height="40" Width="160" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>
+            <Button x:Name="btnJouer" Content="JOUER" Click="btnJouer_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="LawnGreen"/>
+            <Button x:Name="btnRegles" Content="RÈGLES" Click="btnRegles_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="LightGray"/>
+            <Button x:Name="btnParametres" Content="PARAMÈTRES" Click="btnParametres_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="LightGray"/>
 
-        <Label Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#FFDEE022" FontSize="40" FontFamily="Kristen ITC" Width="280">
-            <Label.Background>
-                <ImageBrush ImageSource="/Assets/ImagesMenu/OverwateringTitre.png"/>
-            </Label.Background>
-        </Label>
+            <Button x:Name="btnCredits" Content="CRÉDITS" Click="btnCredits_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="LightGray"/>
 
-        <Button Content="Quitter" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC" Click="Button_Click">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>
-
-        <Button x:Name="butCredit" Content="@ Crédits" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.17,4.371" Height="47" Width="134" FontFamily="Kristen ITC" FontSize="19" Foreground="#FFDEE022">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>
-
-        <Button x:Name="butRegles" Content="Règles" x:FieldModifier="public" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="631,365,0,0" VerticalAlignment="Top" Height="40" Width="148" Foreground="#FFDEE022" FontSize="25" FontFamily="Kristen ITC">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>
-
+            <Button x:Name="btnQuitter" Content="QUITTER" Click="btnQuitter_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="Red" 
+                    Margin="0,20,0,0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

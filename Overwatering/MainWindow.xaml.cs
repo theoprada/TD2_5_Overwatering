@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Overwatering.UserControls;
 using System.Windows.Controls;
 
 namespace Overwatering
@@ -12,36 +11,39 @@ namespace Overwatering
             AfficheMenu();
         }
 
+        public void ChangerEcran(UserControl nouvelEcran)
+        {
+            ContenuPrincipal.Content = nouvelEcran;
+        }
+
         public void AfficheMenu()
         {
-            // création écran menu
-            UC_Menu uc = new UC_Menu();
-            FenetrePrincipal.Content = uc;
-
-            //boutons menu
-            uc.butJouer.Click += AfficherJeu;
-            uc.butRegles.Click += AfficherRegles;
-            uc.butCredit.Click += AfficherCredit;
-
+            ChangerEcran(new UC_Menu());
         }
 
-        private void AfficherJeu(object sender, RoutedEventArgs e)
+        public void LancerJeu()
         {
-            UC_Jeu uc = new UC_Jeu();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Jeu());
         }
 
-        private void AfficherRegles(object sender, RoutedEventArgs e)
+        public void AfficheRegles()
         {
-            UC_Regles uc = new UC_Regles();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Regles());
         }
 
-        private void AfficherCredit(object sender, RoutedEventArgs e)
+        public void AfficheParametres()
         {
-            UC_Credit uc = new UC_Credit();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Parametres());
         }
 
+        public void AfficheCredits()
+        {
+            ChangerEcran(new UC_Credits());
+        }
+
+        public void AfficheGameOver()
+        {
+            ChangerEcran(new UC_GameOver());
+        }
     }
 }
