@@ -9,10 +9,12 @@ namespace Overwatering
         {
             InitializeComponent();
         }
+        
 
         private void butQuitterJeu_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
+
     }
 }

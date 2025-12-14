@@ -17,27 +17,14 @@
             </TextBlock.Effect>
         </TextBlock>
 
-        <Button x:Name="butRetourCredit" Background="Transparent"
-        Content="Retour au Menu"
-        HorizontalAlignment="Center"
-        Padding="15,5"
-        FontSize="25" 
-        Foreground="#FFDEE022" 
-        Cursor="Hand"
-        Margin="0,333,0,40">
+        <Button x:Name="butRetourCredit" Click="butRetourCredit_Click" Background="Transparent" Content="Retour au Menu" HorizontalAlignment="Center"
+        Padding="15,5" FontSize="25" Foreground="#FFDEE022" Cursor="Hand" Margin="0,333,0,40" BorderThickness="0" FontFamily="Kristen ITC">
             <Button.Effect>
                 <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
             </Button.Effect>
         </Button>
 
-                <Button Content="RETOUR" 
-                        Click="Retour_Click"
-                        Style="{StaticResource BoutonCartoon}"
-                        Background="Blue" 
-                        Foreground="White"
-                        Width="200" 
-                        Height="45"/>
-            </StackPanel>
-        </Border>
+                
+
     </Grid>
 </UserControl>

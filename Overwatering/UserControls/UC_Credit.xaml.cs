@@ -10,11 +10,15 @@ namespace Overwatering
             InitializeComponent();
         }
 
-        private void Retour_Click(object sender, RoutedEventArgs e)
+        private void butRetourCredit_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw)
+            Window parentWindow = Window.GetWindow(this);
+
+            if (parentWindow is MainWindow mainWindow)
             {
-                mw.AfficheMenu();
+                // APPEL CORRIGÉ : Demander à la MainWindow d'afficher le menu principal
+                // Cette méthode (que nous avons rendue public) recrée et recâble TOUS les boutons.
+                mainWindow.AfficheMenu();
             }
         }
     }
