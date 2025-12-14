@@ -11,20 +11,24 @@
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
         </Grid.Background>
 
-        <Button x:Name="butRetourCredit" 
+        <TextBlock Text="Théo &amp; Khalis  - Annecy &#x0a;&#x0a;Creative Director    Théo &amp; Khalis&#x0a;&#x0a;Production Director    Théo &amp; Khalis&#x0a;&#x0a;Art Director    Théo &amp; Khalis" 
+                   TextAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Width="440" Margin="0,47,0,122" FontFamily="Kristen ITC">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
+            </TextBlock.Effect>
+        </TextBlock>
+
+        <Button x:Name="butRetourCredit" Background="Transparent"
         Content="Retour au Menu"
         HorizontalAlignment="Center"
         Padding="15,5"
-        FontSize="16" 
+        FontSize="25" 
         Foreground="#FFDEE022" 
         Cursor="Hand"
-        Margin="0,330,0,40">
-            <Button.BorderBrush>
-                <ImageBrush/>
-            </Button.BorderBrush>
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
+        Margin="0,333,0,40">
+            <Button.Effect>
+                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
+            </Button.Effect>
         </Button>
 
     </Grid>
