@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Overwatering.UserControls;
 using System.Windows.Controls;
 
 namespace Overwatering
@@ -13,11 +12,15 @@ namespace Overwatering
             AfficheMenu();
         }
 
+        public void ChangerEcran(UserControl nouvelEcran)
+        {
+            ContenuPrincipal.Content = nouvelEcran;
+        }
+
         public void AfficheMenu()
         {
-            // création écran menu
-            UC_Menu uc = new UC_Menu();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Menu());
+        }
 
             //boutons menu
             uc.butJouer.Click += AfficherJeu;
@@ -25,6 +28,9 @@ namespace Overwatering
             uc.butCredit.Click += AfficherCredit;
             uc.butParametre.Click += AfficheParametres;
 
+        public void AfficheRegles()
+        {
+            ChangerEcran(new UC_Regles());
         }
 
         private void ButParametre_Click(object sender, RoutedEventArgs e)
@@ -34,20 +40,17 @@ namespace Overwatering
 
         private void AfficherJeu(object sender, RoutedEventArgs e)
         {
-            UC_Jeu uc = new UC_Jeu();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Parametres());
         }
 
-        private void AfficherRegles(object sender, RoutedEventArgs e)
+        public void AfficheCredits()
         {
-            UC_Regles uc = new UC_Regles();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_Credits());
         }
 
-        private void AfficherCredit(object sender, RoutedEventArgs e)
+        public void AfficheGameOver()
         {
-            UC_Credit uc = new UC_Credit();
-            FenetrePrincipal.Content = uc;
+            ChangerEcran(new UC_GameOver());
         }
 
         public void AfficheParametres(object sender, RoutedEventArgs e)

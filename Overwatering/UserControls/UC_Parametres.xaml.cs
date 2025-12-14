@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace Overwatering
 {
-    public partial class UC_Credits : UserControl
+    public partial class UC_Parametres : UserControl
     {
-        public UC_Credits()
+        public UC_Parametres()
         {
             InitializeComponent();
         }

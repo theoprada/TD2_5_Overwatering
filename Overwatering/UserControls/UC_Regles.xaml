@@ -3,29 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg"/>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <TextBlock Text="Règles du Jeu : 'Overwatering'" 
-                   Grid.Row="0"
-                   Foreground="#FFDEE022" 
-                   FontSize="32" 
-                   FontWeight="Bold" 
-                   Margin="0,0,0,20" 
-                   HorizontalAlignment="Center"/>
+        <Border Background="#CC000000" CornerRadius="20" Margin="50,20,50,20" BorderBrush="White" BorderThickness="2">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
+                <TextBlock Text="RÈGLES DU JEU" 
+                           Grid.Row="0"
+                           FontFamily="Kristen ITC" 
+                           FontSize="35" 
+                           Foreground="Yellow" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,20">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="4"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="BUT DU JEU" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Vous êtes un fleuriste ! Votre objectif est de faire prospérer votre boutique." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                        <TextBlock Text="Achetez des graines, plantez-les dans vos 4 pots et surveillez leur croissance." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
                 <TextBlock Text="But du Jeu :" 
                            Foreground="#7FFFD4" 
@@ -61,19 +72,37 @@
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Commandes" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="Arroser" Foreground="#FFDEE022" Margin="15,5,0,5"/>
+                        <TextBlock Text="L'ARROSAGE" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Attention à l'équilibre ! Si vous arrosez trop, la plante se noie et si pas assez, elle fane." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Échap" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Pause / Menu" Foreground="#FFDEE022" Margin="15,5,0,5"/>
-                </Grid>
+                        <TextBlock Text="COMMANDES &amp; VIES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Les clients veulent des fleurs spécifiques. Vendez au bon moment !" 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                        <TextBlock Text="Attention : 3 commandes ratées = GAME OVER." 
+                                   Foreground="Red" FontWeight="Bold" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-            </StackPanel>
-        </ScrollViewer>
+                        <TextBlock Text="CONTRÔLES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Utilisez la Souris pour tout gérer (Acheter, Arroser, Vendre)." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap"/>
+                        <TextBlock Text="Touche ECHAP pour mettre en pause." 
+                                   Foreground="Gray" FontSize="14" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
 
         <Button x:Name="butRetour" Background="Transparent" Content="Retour au Menu" HorizontalAlignment="Center" Padding="15,5"
         FontSize="25" Foreground="#FFDEE022" Cursor="Hand" Margin="0,273,0,49" Grid.Row="1" >
             <Button.Effect>
                 <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
             </Button.Effect>
+        </Button>
+
+            <Button.BorderBrush>
+                <ImageBrush/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
         </Button>
 
     </Grid>

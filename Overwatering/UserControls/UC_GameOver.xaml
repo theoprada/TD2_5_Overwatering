@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Overwatering.UC_GameOver"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="450" Width="800">
+    <Grid Background="#CC000000">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="GAMEOVER" Foreground="Red" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="Kristen ITC">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="White" BlurRadius="20"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <TextBlock Text="Vous avez perdu ..." Foreground="White" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+
+            <Button Content="Réessayer" Click="Rejouer_Click" Width="200" Height="50" FontSize="20" Margin="0,10" Background="#4CAF50" Foreground="White" FontFamily="Kristen ITC"/>
+            <Button Content="Menu Principal" Click="Menu_Click" Width="200" Height="40" Margin="0,10" FontFamily="Kristen ITC"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
