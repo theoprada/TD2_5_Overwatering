@@ -12,7 +12,10 @@ namespace Overwatering
 
         private void Retour_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw) mw.AfficheMenu();
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                mw.AfficheMenu();
+            }
         }
     }
 }

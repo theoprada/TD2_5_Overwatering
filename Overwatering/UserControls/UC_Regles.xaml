@@ -96,7 +96,7 @@
                 </ScrollViewer>
 
                 <Button Grid.Row="2" 
-                        Content="RETOUR AU MENU" 
+                        Content="RETOUR" 
                         Click="ButRetour_Click"
                         Style="{StaticResource BoutonCartoon}"
                         Background="Blue" 

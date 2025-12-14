@@ -5,16 +5,90 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              Height="450" Width="800">
-    <Grid Background="Black">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="CRÉDITS" Foreground="#FFDEE022" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold" FontFamily="Kristen ITC"/>
 
-            <TextBlock Text="Développé par :" Foreground="White" FontSize="18" HorizontalAlignment="Center"/>
-            <TextBlock Text="T.PRADA &amp; K.TOUATI" Foreground="#7FFFD4" FontSize="22" HorizontalAlignment="Center" Margin="0,5,0,20" FontWeight="Bold"/>
+    <UserControl.Resources>
+        <Style x:Key="BoutonCartoon" TargetType="Button">
+            <Setter Property="FontFamily" Value="Kristen ITC"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="Black" CornerRadius="8" Margin="0,4,0,0" Opacity="0.5"/>
+                            <Border x:Name="border" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="3" 
+                                    CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentPresenter.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Color="Black" BlurRadius="2"/>
+                                    </ContentPresenter.Effect>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-            <TextBlock Text="Cadre de la SAE 1.01 / 1.02" Foreground="Gray" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
 
-            <Button Content="Retour au Menu" Click="Retour_Click" Width="200" Height="40" Background="#FFDEE022" FontFamily="Kristen ITC"/>
-        </StackPanel>
+        <Border Background="#CC000000" CornerRadius="20" BorderBrush="White" BorderThickness="2"
+                Width="500" Height="350" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <TextBlock Text="CRÉDITS" 
+                           FontFamily="Kristen ITC" 
+                           FontSize="40" 
+                           FontWeight="Bold" 
+                           Foreground="Yellow" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,20">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="5"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <TextBlock Text="DÉVELOPPÉ PAR" 
+                           FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+
+                <TextBlock Text="Théo PRADA" 
+                           FontFamily="Kristen ITC" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="&amp;" 
+                           FontFamily="Kristen ITC" Foreground="White" FontSize="18" HorizontalAlignment="Center"/>
+                <TextBlock Text="Khalis TOUATI" 
+                           FontFamily="Kristen ITC" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <TextBlock Text="IUT d'Annecy - BUT Informatique" 
+                           FontFamily="Arial" Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" FontStyle="Italic"/>
+                <TextBlock Text="Projet SAE 1.01 / 1.02" 
+                           FontFamily="Arial" Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+
+                <Button Content="RETOUR" 
+                        Click="Retour_Click"
+                        Style="{StaticResource BoutonCartoon}"
+                        Background="Blue" 
+                        Foreground="White"
+                        Width="200" 
+                        Height="45"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
