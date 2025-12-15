@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Overwatering" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+        Background="Black">
 
     <Viewbox Stretch="Uniform">
-        <Grid Height="450" Width="800">
-            <ContentControl x:Name="ContenuPrincipal" />
-        </Grid>
+        <ContentControl x:Name="ContenuPrincipal" />
     </Viewbox>
 </Window>
