@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
-             Height="450" Width="800">
+             Height="450" Width="800"
+             Focusable="True" Loaded="UC_Jeu_Loaded" KeyDown="UC_Jeu_KeyDown">
 
     <Grid>
         <Grid.Background>

@@ -22,6 +22,34 @@ namespace Overwatering
             InitializeComponent();
         }
 
+        private void UC_Jeu_Loaded(object sender, RoutedEventArgs e)
+        {
+            // C'est cette ligne qui fait la magie !
+            this.Focus();
+        }
+
+        private void UC_Jeu_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Si la touche appuyée est "Escape" (Échap)
+            if (e.Key == Key.Escape)
+            {
+                // On vérifie l'état actuel de l'overlay :
+                if (MenuPauseOverlay.Visibility == Visibility.Visible)
+                {
+                    // Si le menu est ouvert, on le ferme (Reprendre)
+                    ButReprendre_Click(null, null);
+                }
+                else
+                {
+                    // Si le menu est fermé, on l'ouvre (Pause)
+                    ButPause_Click(null, null);
+                }
+
+                // Empêche l'événement de se propager plus loin (optionnel mais recommandé)
+                e.Handled = true;
+            }
+        }
+
         private void ButPause_Click(object sender, RoutedEventArgs e)
         {
             MenuPauseOverlay.Visibility = Visibility.Visible;
