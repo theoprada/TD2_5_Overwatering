@@ -5,44 +5,43 @@ namespace Overwatering
 {
     public partial class UC_Parametres : UserControl
     {
-        public string ControleChoisi { get; set; }
-        public event EventHandler<Tuple< string>> ParametresSauvegardes;
         public UC_Parametres()
         {
             InitializeComponent();
-
         }
-        public void UCParametres_Loaded(string controleActuel)
+
+        private void UCParametres_Loaded(object sender, RoutedEventArgs e)
         {
-            if (controleActuel != null)
+            // Récupère les paramètres depuis la MainWindow et initialise les contrôles
+            if (Application.Current.MainWindow is MainWindow mw)
             {
-                foreach (ComboBoxItem item in ComboControles.Items)
+                sliderVolume.Value = mw.VolumeJeu;
+
+                // Détermine l'index du ComboBox selon le TypeControle
+                if (mw.TypeControle == "ZQSD")
+                    ComboControles.SelectedIndex = 0;
+                else
+                    ComboControles.SelectedIndex = 1;
+            }
+        }
+
+        private void ButValider_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                // Enregistre le volume
+                mw.VolumeJeu = sliderVolume.Value;
+
+                // Enregistre le type de contrôle (Tag des ComboBoxItem)
+                if (ComboControles.SelectedItem is ComboBoxItem cbi && cbi.Tag != null)
                 {
-                    if (item.Tag.ToString() == controleActuel)
-                    {
-                        ComboControles.SelectedItem = item;
-                        break;
-                    }
+                    mw.TypeControle = cbi.Tag.ToString();
                 }
-            }
-    
-        }
 
-private void ButValider_Click(object sender, RoutedEventArgs e)
-        {
-            // ... Récupération du volume ...
-
-            // Récupération du choix du ComboBox
-            var selectedItem = (ComboBoxItem)ComboControles.SelectedItem;
-            ControleChoisi = selectedItem.Tag.ToString(); // Stocke "ZQSD" ou "ARROWS"
-
-            if (ParametresSauvegardes != null)
-            {
-                // Envoie du volume et du type de contrôle
-                ParametresSauvegardes.Invoke(this, new Tuple< string>(ControleChoisi));
+                // Retour au menu
+                mw.AfficheMenu();
             }
         }
-        
 
         private void butRetour_Click(object sender, RoutedEventArgs e)
         {

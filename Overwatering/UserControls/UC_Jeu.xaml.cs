@@ -1,156 +1,225 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Overwatering
 {
     public partial class UC_Jeu : UserControl
     {
-        private const double VITESSE = 5.0;
+        // --- 1. VARIABLES ---
+        DispatcherTimer gameTimer = new DispatcherTimer();
+
+        // Déplacement
+        double vitesse = 2; // Reduced from 4 to 2 to slow movement
+        double persoX = 375;
+        double persoY = 200;
+
+        // Touches actives
+        bool haut, bas, gauche, droite;
+
+        // Paramètres
+        bool utiliseZQSD = true; // Sera chargé depuis MainWindow
+
+        // Animation
+        // On retient la dernière direction pour savoir quelle image afficher quand on s'arrête
+        string direction = "Recule"; // Valeurs possibles: "Avance", "Recule", "Gauche", "Droite"
+        int numImage = 1; // 1 ou 2 pour l'effet de marche
+        int compteurTemps = 0; // Ralentisseur d'animation
+
         public UC_Jeu()
         {
             InitializeComponent();
+
+            // Configuration du Timer (Boucle de jeu)
+            // Utiliser CompositionTarget.Rendering pour des mises à jour synchronisées au rendu (plus fluide)
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
+        }
+
+        private void CompositionTarget_Rendering(object? sender, EventArgs e)
+        {
+            GameLoop(sender, e);
         }
 
         private void UC_Jeu_Loaded(object sender, RoutedEventArgs e)
         {
-            // C'est cette ligne qui fait la magie !
+            // IMPORTANT : Donner le focus au jeu pour capter le clavier
             this.Focus();
+            Keyboard.Focus(this);
+
+            // Récupérer le choix des touches (ZQSD ou Flèches)
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                utiliseZQSD = (mw.TypeControle == "ZQSD");
+            }
+
+            // Afficher le perso tout de suite (à l'arrêt)
+            MettreAJourSprite(true);
+        }
+
+        // --- 2. BOUCLE DE JEU ---
+        private void GameLoop(object sender, EventArgs e)
+        {
+            // Si le menu pause est visible, on ne bouge pas
+            if (MenuPauseOverlay.Visibility == Visibility.Visible) return;
+
+            bool bouge = false;
+
+            // Déplacement
+            if (haut) { persoY -= vitesse; direction = "Avance"; bouge = true; }
+            if (bas) { persoY += vitesse; direction = "Recule"; bouge = true; }
+            if (gauche) { persoX -= vitesse; direction = "Gauche"; bouge = true; }
+            if (droite) { persoX += vitesse; direction = "Droite"; bouge = true; }
+
+            // Collisions avec les bords de l'écran (800x450)
+            if (persoX < 0) persoX = 0;
+            if (persoY < 0) persoY = 0;
+            if (persoX > 750) persoX = 750; // Largeur fenêtre - Largeur perso
+            if (persoY > 390) persoY = 390; // Hauteur fenêtre - Hauteur perso
+
+            // Appliquer la position
+            Canvas.SetLeft(ImgPerso, persoX);
+            Canvas.SetTop(ImgPerso, persoY);
+
+            // Gérer l'animation
+            if (bouge)
+            {
+                compteurTemps++;
+                // Changer d'image toutes les 10 frames (pour pas clignoter trop vite)
+                if (compteurTemps > 10)
+                {
+                    compteurTemps = 0;
+                    if (numImage == 1) numImage = 2; else numImage = 1; // Alterne 1 et 2
+                    MettreAJourSprite(false); // false = il marche
+                }
+            }
+            else
+            {
+                // Si on ne bouge pas, on remet l'image neutre
+                MettreAJourSprite(true); // true = à l'arrêt
+            }
+        }
+
+        // --- 3. GESTION DE L'IMAGE (SPRITE) ---
+        private void MettreAJourSprite(bool estArrete)
+        {
+            // Construction du nom de fichier selon tes assets
+            // Exemple : "persoAvance1.png" ou "persoAvanceNeutre.png"
+            // Dossier : Assets/ImagesJeu/
+
+            string suffixe;
+            if (estArrete)
+                suffixe = "Neutre";
+            else
+                suffixe = numImage.ToString(); // "1" ou "2"
+
+            string nomFichier = "perso" + direction + suffixe + ".png";
+
+            // Chemin complet pour WPF
+            string chemin = $"/Assets/ImagesJeu/{nomFichier}";
+
+            try
+            {
+                ImgPerso.Source = new BitmapImage(new Uri(chemin, UriKind.Relative));
+            }
+            catch
+            {
+                // Si une image manque, ça ne plante pas le jeu
+            }
+        }
+
+        // --- 4. CLAVIER ---
+        private void UC_Jeu_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // Intercepter les touches de déplacement ici pour empêcher la navigation entre contrôles
+            if (utiliseZQSD)
+            {
+                if (e.Key == Key.Z) { haut = true; e.Handled = true; }
+                if (e.Key == Key.S) { bas = true; e.Handled = true; }
+                if (e.Key == Key.Q) { gauche = true; e.Handled = true; }
+                if (e.Key == Key.D) { droite = true; e.Handled = true; }
+            }
+            else
+            {
+                if (e.Key == Key.Up) { haut = true; e.Handled = true; }
+                if (e.Key == Key.Down) { bas = true; e.Handled = true; }
+                if (e.Key == Key.Left) { gauche = true; e.Handled = true; }
+                if (e.Key == Key.Right) { droite = true; e.Handled = true; }
+            }
+
+            if (e.Key == Key.Escape)
+            {
+                TogglePause();
+                e.Handled = true;
+            }
         }
 
         private void UC_Jeu_KeyDown(object sender, KeyEventArgs e)
         {
-            // Si la touche appuyée est "Escape" (Échap)
-            if (e.Key == Key.Escape)
-            {
-                // On vérifie l'état actuel de l'overlay :
-                if (MenuPauseOverlay.Visibility == Visibility.Visible)
-                {
-                    // Si le menu est ouvert, on le ferme (Reprendre)
-                    ButReprendre_Click(null, null);
-                }
-                else
-                {
-                    // Si le menu est fermé, on l'ouvre (Pause)
-                    ButPause_Click(null, null);
-                }
+            // Garde la compatibilité - traite aussi et marque handled
+            if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; }
 
-                // Empêche l'événement de se propager plus loin (optionnel mais recommandé)
-                e.Handled = true;
-            }
-            string typeControle = "ZQSD"; // Valeur par défaut si MainWindow est introuvable
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow is MainWindow mainWindow)
+            if (utiliseZQSD)
             {
-                typeControle = mainWindow.TypeControle;
+                if (e.Key == Key.Z) { haut = true; e.Handled = true; }
+                if (e.Key == Key.S) { bas = true; e.Handled = true; }
+                if (e.Key == Key.Q) { gauche = true; e.Handled = true; }
+                if (e.Key == Key.D) { droite = true; e.Handled = true; }
             }
-
-            double newX = Canvas.GetLeft(ImgPerso);
-            double newY = Canvas.GetTop(ImgPerso);
-
-            bool aBouge = false; // Pour savoir si on a appuyé sur une touche de direction
-            if (typeControle == "ZQSD")
+            else // Flèches
             {
-                switch (e.Key)
-                {
-                    case Key.Z: // Haut
-                        newY -= VITESSE;
-                        // ... Mise à jour du sprite HAUT ...
-                        aBouge = true;
-                        break;
-                    case Key.S: // Bas
-                        newY += VITESSE;
-                        // ... Mise à jour du sprite BAS ...
-                        aBouge = true;
-                        break;
-                    case Key.Q: // Gauche
-                        newX -= VITESSE;
-                        // ... Mise à jour du sprite GAUCHE ...
-                        aBouge = true;
-                        break;
-                    case Key.D: // Droite
-                        newX += VITESSE;
-                        // ... Mise à jour du sprite DROITE ...
-                        aBouge = true;
-                        break;
-                }
-            }
-            else if (typeControle == "Flèches directionnelles") // Si les flèches sont choisies
-            {
-                switch (e.Key)
-                {
-                    case Key.Up: // Haut
-                        newY -= VITESSE;
-                        // ... Mise à jour du sprite HAUT ...
-                        aBouge = true;
-                        break;
-                    case Key.Down: // Bas
-                        newY += VITESSE;
-                        // ... Mise à jour du sprite BAS ...
-                        aBouge = true;
-                        break;
-                    case Key.Left: // Gauche
-                        newX -= VITESSE;
-                        // ... Mise à jour du sprite GAUCHE ...
-                        aBouge = true;
-                        break;
-                    case Key.Right: // Droite
-                        newX += VITESSE;
-                        // ... Mise à jour du sprite DROITE ...
-                        aBouge = true;
-                        break;
-                }
-            }
-
-            // ... (Gestion de l'application de la position et de e.Handled) ...
-            if (aBouge)
-            {
-                Canvas.SetLeft(ImgPerso, newX);
-                Canvas.SetTop(ImgPerso, newY);
-                e.Handled = true;
+                if (e.Key == Key.Up) { haut = true; e.Handled = true; }
+                if (e.Key == Key.Down) { bas = true; e.Handled = true; }
+                if (e.Key == Key.Left) { gauche = true; e.Handled = true; }
+                if (e.Key == Key.Right) { droite = true; e.Handled = true; }
             }
         }
-        
 
-        private void ButPause_Click(object sender, RoutedEventArgs e)
+        private void UC_Jeu_KeyUp(object sender, KeyEventArgs e)
         {
-            MenuPauseOverlay.Visibility = Visibility.Visible;
-            // estEnPause = true; // Si tu gères la boucle du jeu
-            // Si tu as la musique de jeu, tu devras faire Pause() ou Stop() ici
+            if (utiliseZQSD)
+            {
+                if (e.Key == Key.Z) haut = false;
+                if (e.Key == Key.S) bas = false;
+                if (e.Key == Key.Q) gauche = false;
+                if (e.Key == Key.D) droite = false;
+            }
+            else
+            {
+                if (e.Key == Key.Up) haut = false;
+                if (e.Key == Key.Down) bas = false;
+                if (e.Key == Key.Left) gauche = false;
+                if (e.Key == Key.Right) droite = false;
+            }
+
+            // Marquer handled pour éviter navigation résiduelle
+            e.Handled = true;
         }
 
-        // 2. Reprendre le Jeu
-        private void ButReprendre_Click(object sender, RoutedEventArgs e)
+        // --- 5. PAUSE ---
+        private void TogglePause()
         {
-            MenuPauseOverlay.Visibility = Visibility.Collapsed;
-            // estEnPause = false; // Si tu gères la boucle du jeu
-            // Si tu as la musique de jeu, tu devras faire Play() ici
-            this.Focus();
+            if (MenuPauseOverlay.Visibility == Visibility.Visible)
+            {
+                MenuPauseOverlay.Visibility = Visibility.Collapsed;
+                this.Focus(); // Redonner le focus au jeu
+                Keyboard.Focus(this);
+            }
+            else
+            {
+                MenuPauseOverlay.Visibility = Visibility.Visible;
+            }
         }
 
-        // 3. Quitter le Jeu pour le Menu Principal
+        private void ButPause_Click(object sender, RoutedEventArgs e) => TogglePause();
+        private void ButReprendre_Click(object sender, RoutedEventArgs e) => TogglePause();
+
         private void ButQuitterMenu_Click(object sender, RoutedEventArgs e)
         {
-            // 3.1 Trouver la fenêtre parente (MainWindow)
-            Window parentWindow = Window.GetWindow(this);
-
-            // 3.2 S'assurer que c'est la MainWindow et appeler la méthode de retour au menu
-            if (parentWindow is MainWindow mainWindow)
-            {
-                // Utilise la méthode que tu as dans MainWindow (AfficherMenu() ou AfficherMenuPrincipal())
-                mainWindow.AfficheMenu();
-            }
+            if (Application.Current.MainWindow is MainWindow mw) mw.AfficheMenu();
         }
     }
 }

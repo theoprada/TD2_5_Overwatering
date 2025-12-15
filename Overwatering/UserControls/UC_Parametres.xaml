@@ -66,18 +66,15 @@
 
                     <TextBlock Text="Configuration des touches" Foreground="White" Margin="0,10,0,5" FontFamily="Kristen ITC"/>
                     <ComboBox x:Name="ComboControles" SelectedIndex="0" Margin="0,0,0,20" FontFamily="Arial">
-                        <ComboBoxItem Content="ZQSD"/>
-                        <ComboBoxItem Content="Flèches directionnelles"/>
+                        <ComboBoxItem Tag="ZQSD" Content="ZQSD"/>
+                        <ComboBoxItem Tag="FLECHES" Content="Flèches directionnelles"/>
                     </ComboBox>
                 </StackPanel>
                 
-                <Button Grid.Row="2" 
-                    Content="RETOUR AU MENU" 
-                    Click="butRetour_Click"
-                    Style="{StaticResource BoutonCartoon}"
-                    Background="Blue" 
-                    Width="250" 
-                    Height="45"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="VALIDER" Click="ButValider_Click" Style="{StaticResource BoutonCartoon}" Background="Green" Width="180" Height="45" Margin="0,0,20,0"/>
+                    <Button Content="RETOUR AU MENU" Click="butRetour_Click" Style="{StaticResource BoutonCartoon}" Background="Blue" Width="250" Height="45"/>
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>

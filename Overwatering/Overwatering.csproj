@@ -9,10 +9,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\ImagesJeu\persoCoteGauche.png" />
-    <None Remove="Assets\ImagesJeu\persoDos.png" />
-    <None Remove="Assets\ImagesJeu\persoFace.png" />
-    <None Remove="Assets\ImagesJeu\persosCoteDroit.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\daisyadulte.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\daisyfanee.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\daisypousse.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\flowerpot.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\roseadulte.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\rosefanee.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\rosepousse.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\seedpousse.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\sunfloweradulte.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\sunflowerfanee.png" />
+    <None Remove="Assets\ImagesJeu\ImagesFleurs\sunflowerpousse.png" />
+    <None Remove="Assets\ImagesJeu\ImagesShop\daisyseed.png" />
+    <None Remove="Assets\ImagesJeu\ImagesShop\roseseed.png" />
+    <None Remove="Assets\ImagesJeu\ImagesShop\sunflowerseed.png" />
+    <None Remove="Assets\ImagesJeu\persoAvance1.png" />
+    <None Remove="Assets\ImagesJeu\persoAvance2.png" />
+    <None Remove="Assets\ImagesJeu\persoAvanceNeutre.png" />
+    <None Remove="Assets\ImagesJeu\persoDroite1.png" />
+    <None Remove="Assets\ImagesJeu\persoDroite2.png" />
+    <None Remove="Assets\ImagesJeu\persoDroiteNeutre.png" />
+    <None Remove="Assets\ImagesJeu\persoGauche1.png" />
+    <None Remove="Assets\ImagesJeu\persoGauche2.png" />
+    <None Remove="Assets\ImagesJeu\persoGaucheNeutre.png" />
+    <None Remove="Assets\ImagesJeu\persoRecule1.png" />
+    <None Remove="Assets\ImagesJeu\persoRecule2.png" />
+    <None Remove="Assets\ImagesJeu\persoReculeNeutre.png" />
     <None Remove="Assets\ImagesMenu\backgroundMenu.jpg" />
     <None Remove="Assets\ImagesMenu\JeuBackground.png" />
     <None Remove="FondMenu.jpg" />
@@ -23,16 +45,82 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\ImagesJeu\persoCoteGauche.png">
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\daisyadulte.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\ImagesJeu\persoDos.png">
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\daisyfanee.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\ImagesJeu\persoFace.png">
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\daisypousse.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\ImagesJeu\persosCoteDroit.png">
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\flowerpot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\roseadulte.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\rosefanee.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\rosepousse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\seedpousse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\sunfloweradulte.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\sunflowerfanee.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesFleurs\sunflowerpousse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesShop\daisyseed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesShop\roseseed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesShop\sunflowerseed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoAvance1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoAvance2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoAvanceNeutre.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoDroite1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoDroite2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoDroiteNeutre.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoGauche1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoGauche2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoGaucheNeutre.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoRecule1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoRecule2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoReculeNeutre.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesMenu\backgroundMenu.jpg">
