@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\ImagesJeu\persoCoteGauche.png" />
+    <None Remove="Assets\ImagesJeu\persoDos.png" />
+    <None Remove="Assets\ImagesJeu\persoFace.png" />
+    <None Remove="Assets\ImagesJeu\persosCoteDroit.png" />
     <None Remove="Assets\ImagesMenu\backgroundMenu.jpg" />
     <None Remove="Assets\ImagesMenu\JeuBackground.png" />
     <None Remove="FondMenu.jpg" />
@@ -19,6 +23,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\ImagesJeu\persoCoteGauche.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoDos.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoFace.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persosCoteDroit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\ImagesMenu\backgroundMenu.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -34,10 +50,6 @@
     <Resource Include="Assets\ImagesMenu\SettingsBoutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\ImagesJeu\" />
   </ItemGroup>
 
 </Project>

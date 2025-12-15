@@ -17,6 +17,7 @@ namespace Overwatering
 {
     public partial class UC_Jeu : UserControl
     {
+        private const double VITESSE = 5.0;
         public UC_Jeu()
         {
             InitializeComponent();
@@ -48,7 +49,79 @@ namespace Overwatering
                 // Empêche l'événement de se propager plus loin (optionnel mais recommandé)
                 e.Handled = true;
             }
+            string typeControle = "ZQSD"; // Valeur par défaut si MainWindow est introuvable
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow is MainWindow mainWindow)
+            {
+                typeControle = mainWindow.TypeControle;
+            }
+
+            double newX = Canvas.GetLeft(ImgPerso);
+            double newY = Canvas.GetTop(ImgPerso);
+
+            bool aBouge = false; // Pour savoir si on a appuyé sur une touche de direction
+            if (typeControle == "ZQSD")
+            {
+                switch (e.Key)
+                {
+                    case Key.Z: // Haut
+                        newY -= VITESSE;
+                        // ... Mise à jour du sprite HAUT ...
+                        aBouge = true;
+                        break;
+                    case Key.S: // Bas
+                        newY += VITESSE;
+                        // ... Mise à jour du sprite BAS ...
+                        aBouge = true;
+                        break;
+                    case Key.Q: // Gauche
+                        newX -= VITESSE;
+                        // ... Mise à jour du sprite GAUCHE ...
+                        aBouge = true;
+                        break;
+                    case Key.D: // Droite
+                        newX += VITESSE;
+                        // ... Mise à jour du sprite DROITE ...
+                        aBouge = true;
+                        break;
+                }
+            }
+            else if (typeControle == "Flèches directionnelles") // Si les flèches sont choisies
+            {
+                switch (e.Key)
+                {
+                    case Key.Up: // Haut
+                        newY -= VITESSE;
+                        // ... Mise à jour du sprite HAUT ...
+                        aBouge = true;
+                        break;
+                    case Key.Down: // Bas
+                        newY += VITESSE;
+                        // ... Mise à jour du sprite BAS ...
+                        aBouge = true;
+                        break;
+                    case Key.Left: // Gauche
+                        newX -= VITESSE;
+                        // ... Mise à jour du sprite GAUCHE ...
+                        aBouge = true;
+                        break;
+                    case Key.Right: // Droite
+                        newX += VITESSE;
+                        // ... Mise à jour du sprite DROITE ...
+                        aBouge = true;
+                        break;
+                }
+            }
+
+            // ... (Gestion de l'application de la position et de e.Handled) ...
+            if (aBouge)
+            {
+                Canvas.SetLeft(ImgPerso, newX);
+                Canvas.SetTop(ImgPerso, newY);
+                e.Handled = true;
+            }
         }
+        
 
         private void ButPause_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +136,7 @@ namespace Overwatering
             MenuPauseOverlay.Visibility = Visibility.Collapsed;
             // estEnPause = false; // Si tu gères la boucle du jeu
             // Si tu as la musique de jeu, tu devras faire Play() ici
+            this.Focus();
         }
 
         // 3. Quitter le Jeu pour le Menu Principal

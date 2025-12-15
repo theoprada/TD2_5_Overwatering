@@ -13,6 +13,14 @@
             <ImageBrush ImageSource="/Assets/ImagesMenu/JeuBackground.png" Stretch="UniformToFill"/>
         </Grid.Background>
 
+        <Canvas x:Name="CanvasJeu" Grid.RowSpan="2" Background="Transparent">
+
+            <Image x:Name="ImgPerso"
+                   Source="/Assets/ImagesJeu/persoFace.png"
+                   Width="64" Height="64"  
+                   Canvas.Left="391"       Canvas.Top="10"/>
+        </Canvas>
+
         <Button x:Name="butPause"
                 Grid.Row="0"
                 Content="⏸️"

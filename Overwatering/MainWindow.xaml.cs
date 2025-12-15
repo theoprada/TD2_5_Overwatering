@@ -6,6 +6,9 @@ namespace Overwatering
 {
     public partial class MainWindow : Window
     {
+        public string TypeControle { get; set; } = "ZQSD";
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+        private double volumeMusique = 0.5;
         public MainWindow()
         {
             InitializeComponent();

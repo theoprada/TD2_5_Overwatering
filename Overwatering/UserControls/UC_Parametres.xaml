@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Height="450" Width="800">
+             Height="450" Width="800"
+             Loaded="UCParametres_Loaded">
     
     <UserControl.Resources>
         <Style x:Key="BoutonCartoon" TargetType="Button">
@@ -64,9 +65,9 @@
                     <Slider x:Name="sliderVolume" Minimum="0" Maximum="100" Value="50" Margin="0,0,0,20"/>
 
                     <TextBlock Text="Configuration des touches" Foreground="White" Margin="0,10,0,5" FontFamily="Kristen ITC"/>
-                    <ComboBox SelectedIndex="0" Margin="0,0,0,20" FontFamily="Arial">
-                        <ComboBoxItem Content="Flèches directionnelles"/>
+                    <ComboBox x:Name="ComboControles" SelectedIndex="0" Margin="0,0,0,20" FontFamily="Arial">
                         <ComboBoxItem Content="ZQSD"/>
+                        <ComboBoxItem Content="Flèches directionnelles"/>
                     </ComboBox>
                 </StackPanel>
                 
