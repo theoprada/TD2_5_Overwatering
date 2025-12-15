@@ -15,8 +15,8 @@
 
             <TextBlock Text="Vous avez perdu ..." Foreground="White" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,30"/>
 
-            <Button Content="Réessayer" Width="200" Height="50" FontSize="20" Margin="0,10" Background="#4CAF50" Foreground="White" FontFamily="Kristen ITC"/>
-            <Button Content="Menu Principal" Width="200" Height="40" Margin="0,10" FontFamily="Kristen ITC"/>
+            <Button Content="Réessayer" Click="Rejouer_Click" Width="200" Height="50" FontSize="20" Margin="0,10" Background="#4CAF50" Foreground="White" FontFamily="Kristen ITC"/>
+            <Button Content="Menu Principal" Click="Menu_Click" Width="200" Height="40" Margin="0,10" FontFamily="Kristen ITC"/>
         </StackPanel>
     </Grid>
 </UserControl>

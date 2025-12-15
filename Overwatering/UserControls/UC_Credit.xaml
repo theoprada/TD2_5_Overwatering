@@ -4,27 +4,70 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Height="450" Width="800">
+
+    <UserControl.Resources>
+        <Style x:Key="BoutonCartoon" TargetType="Button">
+            <Setter Property="FontFamily" Value="Kristen ITC"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="Black" CornerRadius="8" Margin="0,4,0,0" Opacity="0.5"/>
+                            <Border x:Name="border" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="Black" 
+                            BorderThickness="3" 
+                            CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentPresenter.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Color="Black" BlurRadius="2"/>
+                                    </ContentPresenter.Effect>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <TextBlock Text="Théo &amp; Khalis  - Annecy &#x0a;&#x0a;Creative Director    Théo &amp; Khalis&#x0a;&#x0a;Production Director    Théo &amp; Khalis&#x0a;&#x0a;Art Director    Théo &amp; Khalis" 
-                   TextAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Width="475" Margin="0,47,0,122" FontFamily="Kristen ITC">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
-            </TextBlock.Effect>
-        </TextBlock>
+        <Border Background="#CC000000" CornerRadius="20" Margin="50,20,50,20" BorderBrush="White" BorderThickness="2">
+            <Grid Background="Black">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="CRÉDITS" Foreground="#FFDEE022" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,20" FontWeight="Bold" FontFamily="Kristen ITC"/>
 
-        <Button x:Name="butRetourCredit" Click="butRetourCredit_Click" Background="Transparent" Content="Retour au Menu" HorizontalAlignment="Center"
-        Padding="15,5" FontSize="25" Foreground="#FFDEE022" Cursor="Hand" Margin="0,333,0,40" BorderThickness="0" FontFamily="Kristen ITC">
-            <Button.Effect>
-                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
-            </Button.Effect>
-        </Button>
 
-                
+                    <TextBlock Text="Développé par :" Foreground="White" FontSize="18" HorizontalAlignment="Center"/>
+                    <TextBlock Text="T.PRADA &amp; K.TOUATI" Foreground="#7FFFD4" FontSize="22" HorizontalAlignment="Center" Margin="0,5,0,20" FontWeight="Bold"/>
+                    <TextBlock Text="Cadre de la SAE 1.01 / 1.02" Foreground="Gray" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,30"/>
 
+                    <Button Grid.Row="2" 
+                    Content="RETOUR AU MENU" 
+                    Click="butRetour_Click"
+                    Style="{StaticResource BoutonCartoon}"
+                    Background="Blue" 
+                    Width="250" 
+                    Height="45"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

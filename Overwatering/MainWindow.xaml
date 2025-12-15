@@ -5,7 +5,9 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResize">
 
-    <ContentControl x:Name="ContenuPrincipal">
-
-    </ContentControl>
+    <Viewbox Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            <ContentControl x:Name="ContenuPrincipal" />
+        </Grid>
+    </Viewbox>
 </Window>

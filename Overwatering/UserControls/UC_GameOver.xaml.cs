@@ -10,6 +10,14 @@ namespace Overwatering
             InitializeComponent();
         }
 
+        private void Rejouer_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow is MainWindow mw) mw.LancerJeu();
+        }
 
+        private void Menu_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow is MainWindow mw) mw.AfficheMenu();
+        }
     }
 }

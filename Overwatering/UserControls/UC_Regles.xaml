@@ -3,38 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Height="450" Width="800">
+
+    <UserControl.Resources>
+        <Style x:Key="BoutonCartoon" TargetType="Button">
+            <Setter Property="FontFamily" Value="Kristen ITC"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="Black" CornerRadius="8" Margin="0,4,0,0" Opacity="0.5"/>
+                            <Border x:Name="border" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="Black" 
+                                    BorderThickness="3" 
+                                    CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentPresenter.Effect>
+                                        <DropShadowEffect ShadowDepth="2" Color="Black" BlurRadius="2"/>
+                                    </ContentPresenter.Effect>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/ImagesMenu/backgroundMenu.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Border Background="#CC000000" CornerRadius="20" Margin="50,20,50,20" BorderBrush="White" BorderThickness="2">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="RÈGLES DU JEU" 
+                           Grid.Row="0"
+                           FontFamily="Kristen ITC" 
+                           FontSize="35" 
+                           Foreground="Yellow" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,20">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="4"/>
+                    </TextBlock.Effect>
+                </TextBlock>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Déplacement" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="ZQSD" Foreground="#FFDEE022" Margin="15,5,0,5"/>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="BUT DU JEU" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Vous êtes un fleuriste ! Votre objectif est de faire le maximum d'argent possible." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                        <TextBlock Text="Achetez des graines, plantez-les dans vos 4 pots et surveillez les." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Commandes" FontWeight="Bold" Foreground="#FFDEE022" Margin="0,5"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Arroser" Foreground="#FFDEE022" Margin="15,5,0,5"/>
+                        <TextBlock Text="L'ARROSAGE" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Attention à l'équilibre ! Si vous arrosez trop, la plante se noie et si pas assez, elle fane." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-            <TextBlock Text="L'ARROSAGE" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
-            <TextBlock Text="Attention à l'équilibre ! Si vous arrosez trop, la plante se noie et si pas assez, elle fane." 
-                    Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
+                        <TextBlock Text="COMMANDES &amp; VIES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Les clients veulent des fleurs spécifiques. Vendez au bon moment !" 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,5"/>
+                        <TextBlock Text="Attention : 3 commandes ratées = GAME OVER." 
+                                   Foreground="Red" FontWeight="Bold" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-        </Grid>
-        <Button x:Name="butRetour" Click="butRetour_Click" Background="Transparent" Content="Retour au Menu" HorizontalAlignment="Center"
-        Padding="15,5" FontSize="25" Foreground="#FFDEE022" Cursor="Hand" Margin="0,333,0,40" BorderThickness="0" FontFamily="Kristen ITC">
-            <Button.Effect>
-                <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
-            </Button.Effect>
-        </Button>
-
-
+                        <TextBlock Text="CONTRÔLES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
+                        <TextBlock Text="Utilisez la souris pour tout gérer (Acheter, Arroser, Vendre)." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap"/>
+                        <TextBlock Text="Touche ECHAP pour mettre en pause." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button Grid.Row="2" 
+                        Content="RETOUR AU MENU" 
+                        Click="ButRetour_Click"
+                        Style="{StaticResource BoutonCartoon}"
+                        Background="Blue" 
+                        Width="250" 
+                        Height="45"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

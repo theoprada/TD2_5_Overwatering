@@ -1,80 +1,54 @@
 ﻿using System.Windows;
+
 using System.Windows.Controls;
 
 namespace Overwatering
 {
     public partial class MainWindow : Window
     {
-        double volumeMusique = 0.5;
         public MainWindow()
         {
             InitializeComponent();
             AfficheMenu();
         }
 
+        public void ChangerEcran(UserControl nouvelEcran)
+        {
+            ContenuPrincipal.Content = nouvelEcran;
+        }
+
 
         public void AfficheMenu()
         {
-
-            // création écran menu
-            UC_Menu uc = new UC_Menu();
-            ContenuPrincipal.Content = uc;
-
-            //boutons menu
-            uc.butJouer.Click += AfficherJeu;
-            uc.butRegles.Click += AfficheRegles;
-            uc.butCredit.Click += AfficheCredits;
-            uc.butParametre.Click += AfficheParametres;
-
+            ChangerEcran(new UC_Menu());
         }
 
-        private void ButParametre_Click(object sender, RoutedEventArgs e)
+        public void LancerJeu()
         {
-            throw new NotImplementedException();
+            ChangerEcran(new UC_Jeu());
         }
 
-        private void AfficherJeu(object sender, RoutedEventArgs e) { 
-
-            UC_Jeu uc = new UC_Jeu();
-            ContenuPrincipal.Content = uc;
-        }
-
-
-        public void AfficheRegles(object sender, RoutedEventArgs e)
+        public void AfficheRegles()
         {
-            UC_Regles uc = new UC_Regles();
-            ContenuPrincipal.Content = uc;
+            ChangerEcran(new UC_Regles());
+
         }
 
-
-        public void AfficheParametres(object sender, RoutedEventArgs e)
+        public void AfficheParametres()
         {
-            // 1. On crée la fenêtre en lui envoyant le volume actuel
-            ParametresWindow fenetreParam = new ParametresWindow(volumeMusique);
+            ChangerEcran(new UC_Parametres());
 
-            // 2. On l'affiche et on attend la réponse (true si Confirmer, false si Annuler)
-            bool? resultat = fenetreParam.ShowDialog();
-
-            // 3. Si l'utilisateur a cliqué sur "Confirmer"
-            if (resultat == true)
-            {
-                // On récupère la nouvelle valeur
-                volumeMusique = fenetreParam.VolumeChoisi;
-
-                // ICI : Applique le volume à ton lecteur de musique si tu en as un
-                // exemple : monMediaPlayer.Volume = volumeMusique;
-
-                MessageBox.Show($"Volume changé à : {volumeMusique * 100}%"); // Juste pour tester
-
-            }
         }
 
-
-        public void AfficheCredits(object sender, RoutedEventArgs e)
+        public void AfficheCredits()
         {
-            UC_Credits uc = new UC_Credits();
-            ContenuPrincipal.Content = uc;
+            ChangerEcran(new UC_Credits());
+
         }
 
+        public void AfficheGameOver()
+        {
+            ChangerEcran(new UC_GameOver());
+        }
     }
 }
