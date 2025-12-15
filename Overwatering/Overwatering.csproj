@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Assets\ImagesJeu\**" />
-    <EmbeddedResource Remove="Assets\ImagesJeu\**" />
-    <None Remove="Assets\ImagesJeu\**" />
-    <Page Remove="Assets\ImagesJeu\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Assets\ImagesMenu\backgroundMenu.jpg" />
     <None Remove="Assets\ImagesMenu\JeuBackground.png" />
     <None Remove="FondMenu.jpg" />
@@ -41,6 +34,10 @@
     <Resource Include="Assets\ImagesMenu\SettingsBoutton.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\ImagesJeu\" />
   </ItemGroup>
 
 </Project>
