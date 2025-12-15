@@ -6,4 +6,10 @@
              xmlns:local="clr-namespace:Overwatering"
              mc:Ignorable="d" 
              Height="450" Width="800">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/JeuBackground.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+    </Grid>
 </UserControl>

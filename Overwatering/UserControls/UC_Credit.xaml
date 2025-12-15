@@ -11,7 +11,7 @@
         </Grid.Background>
 
         <TextBlock Text="Théo &amp; Khalis  - Annecy &#x0a;&#x0a;Creative Director    Théo &amp; Khalis&#x0a;&#x0a;Production Director    Théo &amp; Khalis&#x0a;&#x0a;Art Director    Théo &amp; Khalis" 
-                   TextAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Width="440" Margin="0,47,0,122" FontFamily="Kristen ITC">
+                   TextAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#FFDEE022" HorizontalAlignment="Center" Width="475" Margin="0,47,0,122" FontFamily="Kristen ITC">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="3" Color="Black" Opacity="0.5" BlurRadius="5"/>
             </TextBlock.Effect>

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="Assets\ImagesMenu\backgroundMenu.jpg" />
+    <None Remove="Assets\ImagesMenu\JeuBackground.png" />
     <None Remove="FondMenu.jpg" />
     <None Remove="Jouer-10-12-2025-removebg-preview.png" />
     <None Remove="Overwatering-10-12-2025 %281%29.png" />
@@ -26,6 +27,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\ImagesMenu\backgroundMenu.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesMenu\JeuBackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesMenu\JouerBoutton.png">
