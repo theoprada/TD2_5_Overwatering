@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,7 +23,7 @@ namespace Overwatering
         public TypeFleur FleurDemandee { get; private set; }
         public int QuantiteDemandee { get; private set; }
 
-        public CommandeClient(TypeFleur fleur, int quantite = 1)
+        public CommandeClient(TypeFleur fleur, int quantite = 2)
         {
             FleurDemandee = fleur;
             QuantiteDemandee = quantite;
@@ -41,6 +43,7 @@ namespace Overwatering
 
         private bool _clientPresent = false;
         private CommandeClient _commandeActuelle;
+        
 
         // Déplacement
         double vitesse = 2; // Reduced from 4 to 2 to slow movement
@@ -58,8 +61,7 @@ namespace Overwatering
         string direction = "Recule"; // Valeurs possibles: "Avance", "Recule", "Gauche", "Droite"
         int numImage = 1; // 1 ou 2 pour l'effet de marche
         int compteurTemps = 0; // Ralentisseur d'animation
-        private List<Rect> _zonesCollisions;
-
+        private List<System.Windows.Shapes.Rectangle> _zonesCollisions;
         public UC_Jeu()
         {
             InitializeComponent();
@@ -72,28 +74,21 @@ namespace Overwatering
         }
         private void InitialiserCollisions()
         {
-            _zonesCollisions = new List<Rect>();
+            _zonesCollisions = new List<System.Windows.Shapes.Rectangle>()
+            {
+                ColisionPuit,
+                ColisionArbreGauche,
+                ColisionArbreDroit,
+                ColisionArbreHautGauche,
+                ColisionArbreHautDroit,
+                ColisionArbreBas
+            };
 
-            // 1. ZONES NON JOUABLES (BORDURES DE LIGNE BLEUE)
-            // Bordure Haut (Arbres)
-            _zonesCollisions.Add(new Rect(0, 0, 640, 120));
-            // Bordure Gauche (Arbres)
-            _zonesCollisions.Add(new Rect(0, 120, 100, 360));
-            // Bordure Droite (Arbres)
-            _zonesCollisions.Add(new Rect(540, 120, 100, 360));
-            // Bordure Bas (Arbres/Buissons)
-            _zonesCollisions.Add(new Rect(0, 420, 640, 60));
-
-
-            // 2. OBSTACLES INTERNES
-            // Puits (Rond brun)
-            _zonesCollisions.Add(new Rect(480, 380, 60, 45));
-
-            // Champ Labouré (Grande zone de culture - Blocage total)
-            _zonesCollisions.Add(new Rect(180, 200, 280, 180));
-
-            // Terrain Jaune (Petite zone de culture - Blocage total)
-            _zonesCollisions.Add(new Rect(480, 200, 120, 180));
+            foreach (var collision in _zonesCollisions)
+            {
+                collision.Visibility = Visibility.Collapsed;
+            }
+            
         }
 
         private void InitialiserTimerClients()
@@ -317,40 +312,57 @@ namespace Overwatering
             // 2. VÉRIFICATION DE LA COLLISION
             if (aBouge)
             {
-                // Créer le rectangle potentiel du joueur à sa future position
-                Rect rectJoueurPotentiel = new Rect(
-                    potentialX,
-                    potentialY,
-                    joueurWidth,
-                    joueurHeight);
+
+
+                // Définir les quatre points potentiels du joueur
+                System.Windows.Point coinHautGauche = new System.Windows.Point(potentialX, potentialY);
+                System.Windows.Point coinHautDroit = new System.Windows.Point(potentialX + joueurWidth, potentialY);
+                System.Windows.Point coinBasGauche = new System.Windows.Point(potentialX, potentialY + joueurHeight);
+                System.Windows.Point coinBasDroit = new System.Windows.Point(potentialX + joueurWidth, potentialY + joueurHeight);
 
                 bool collisionTrouvee = false;
 
-                foreach (Rect zoneBloquante in _zonesCollisions)
+                foreach (Rectangle collision in _zonesCollisions)
                 {
-                    // La méthode IntersectsWith vérifie si deux rectangles se chevauchent
-                    if (rectJoueurPotentiel.IntersectsWith(zoneBloquante))
+                    // Conversion du Rectangle XAML en un Rect WPF standard pour la vérification
+                    // Attention : On doit utiliser la marge si les propriétés Canvas.Left/Top ne sont pas utilisées.
+                    // La façon la plus fiable est de lire ses coordonnées réelles.
+
+                    // On vérifie si l'obstacle est visible et a une taille
+                    if (collision.Width > 0 && collision.Height > 0)
                     {
-                        collisionTrouvee = true;
-                        break; // Pas besoin de vérifier les autres zones
+                        // Obtenir la position absolue (X, Y) du coin supérieur gauche de l'obstacle
+                        double obstacleX = Canvas.GetLeft(collision);
+                        double obstacleY = Canvas.GetTop(collision);
+
+                        // Correction: Si vous utilisez la propriété Margin pour positionner, Canvas.GetLeft/Top sera NaN ou 0.
+                        // SI TU UTILISES MARGIN, IL FAUT UTILISER LES COORDONNÉES DÉFINIES DANS InitialiserObstacles
+
+                        // Pour utiliser la méthode Contains, il faut le Rect de l'obstacle :
+                        Rect rectObstacle = new Rect(obstacleX, obstacleY, collision.Width, collision.Height);
+
+                        // Vérification du chevauchement de n'importe quel point
+                        if (rectObstacle.Contains(coinHautGauche) ||
+                            rectObstacle.Contains(coinHautDroit) ||
+                            rectObstacle.Contains(coinBasGauche) ||
+                            rectObstacle.Contains(coinBasDroit))
+                        {
+                            collisionTrouvee = true;
+                            break;
+                        }
                     }
                 }
 
                 // 3. APPLICATION DU MOUVEMENT
                 if (!collisionTrouvee)
                 {
-                    // SI AUCUNE COLLISION : On met à jour la position
                     Canvas.SetLeft(ImgJoueur, potentialX);
                     Canvas.SetTop(ImgJoueur, potentialY);
-                }
-                else
-                {
-                    // SI COLLISION : Le mouvement est annulé (les positions restent currentX/Y)
-                    // Tu peux ajouter ici un son de "bump" si tu veux.
                 }
 
                 e.Handled = true;
             }
+
             if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; }
 
             if (utiliseZQSD)

@@ -35,7 +35,12 @@
 
         </Grid>
 
-        <Rectangle x:Name="ColisionPuit" ></Rectangle>
+        <Rectangle x:Name="ColisionPuit" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="636,276,101,114"/>    
+        <Rectangle x:Name="ColisionArbreGauche" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="23,50,650,47"/>
+        <Rectangle x:Name="ColisionArbreDroit" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="752,10,0,47"/>
+        <Rectangle x:Name="ColisionArbreHautGauche" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="150,0,456,375"/>
+        <Rectangle x:Name="ColisionArbreHautDroit" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="556,0,48,408"/>
+        <Rectangle x:Name="ColisionArbreBas" Canvas.Left="480" Canvas.Top="380" Fill="#88FF0000" IsHitTestVisible="False" Margin="150,403,48,0"/>
         <Canvas x:Name="Canvas" Grid.RowSpan="2" Background="Transparent">
             <Image x:Name="ImgJoueur"
                    Width="64" Height="64"  
@@ -61,7 +66,7 @@
 
         </Canvas>
 
-        <Canvas x:Name="CanvasJeu" Background="Transparent" Margin="0,10,0,-10">
+        <Canvas x:Name="CanvasJeu" Background="Transparent">
             <Image x:Name="ImgPerso"
                    Width="50" Height="60"  
                    Canvas.Left="475" Canvas.Top="200"
