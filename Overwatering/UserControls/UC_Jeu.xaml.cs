@@ -58,15 +58,42 @@ namespace Overwatering
         string direction = "Recule"; // Valeurs possibles: "Avance", "Recule", "Gauche", "Droite"
         int numImage = 1; // 1 ou 2 pour l'effet de marche
         int compteurTemps = 0; // Ralentisseur d'animation
+        private List<Rect> _zonesCollisions;
 
         public UC_Jeu()
         {
             InitializeComponent();
             InitialiserTimerClients();
+            InitialiserCollisions();
 
             // Configuration du Timer (Boucle de jeu)
             // Utiliser CompositionTarget.Rendering pour des mises à jour synchronisées au rendu (plus fluide)
             CompositionTarget.Rendering += CompositionTarget_Rendering;
+        }
+        private void InitialiserCollisions()
+        {
+            _zonesCollisions = new List<Rect>();
+
+            // 1. ZONES NON JOUABLES (BORDURES DE LIGNE BLEUE)
+            // Bordure Haut (Arbres)
+            _zonesCollisions.Add(new Rect(0, 0, 640, 120));
+            // Bordure Gauche (Arbres)
+            _zonesCollisions.Add(new Rect(0, 120, 100, 360));
+            // Bordure Droite (Arbres)
+            _zonesCollisions.Add(new Rect(540, 120, 100, 360));
+            // Bordure Bas (Arbres/Buissons)
+            _zonesCollisions.Add(new Rect(0, 420, 640, 60));
+
+
+            // 2. OBSTACLES INTERNES
+            // Puits (Rond brun)
+            _zonesCollisions.Add(new Rect(480, 380, 60, 45));
+
+            // Champ Labouré (Grande zone de culture - Blocage total)
+            _zonesCollisions.Add(new Rect(180, 200, 280, 180));
+
+            // Terrain Jaune (Petite zone de culture - Blocage total)
+            _zonesCollisions.Add(new Rect(480, 200, 120, 180));
         }
 
         private void InitialiserTimerClients()
@@ -247,6 +274,83 @@ namespace Overwatering
         private void UC_Jeu_KeyDown(object sender, KeyEventArgs e)
         {
             // Garde la compatibilité - traite aussi et marque handled
+
+            if (MenuPauseOverlay.Visibility == Visibility.Visible) return;
+
+            // Position actuelle
+            double currentX = Canvas.GetLeft(ImgJoueur);
+            double currentY = Canvas.GetTop(ImgJoueur);
+
+            // Position potentielle (nouvelle position)
+            double potentialX = currentX;
+            double potentialY = currentY;
+
+            // Hauteur et Largeur du personnage (pour la zone de collision du joueur)
+            double joueurWidth = ImgJoueur.Width;
+            double joueurHeight = ImgJoueur.Height;
+            bool aBouge = false;
+
+            // 1. CALCUL DE LA NOUVELLE POSITION POTENTIELLE
+            // (On utilise potentialX/Y au lieu de newX/Y)
+
+            // ... Ton code pour déterminer la direction (ZQSD ou Flèches) ...
+            // ... (Exemple pour Z) ...
+
+            // Si TypeControle == "ZQSD":
+            switch (e.Key)
+            {
+                case Key.Z: // Haut
+                    potentialY -= VITESSE;
+                    // ... (Mise à jour du sprite) ...
+                    aBouge = true;
+                    break;
+                case Key.S: // Bas
+                    potentialY += VITESSE;
+                    // ... (Mise à jour du sprite) ...
+                    aBouge = true;
+                    break;
+                    // ... (Q et D) ...
+            }
+            // ... (Logique pour les Flèches) ...
+
+
+            // 2. VÉRIFICATION DE LA COLLISION
+            if (aBouge)
+            {
+                // Créer le rectangle potentiel du joueur à sa future position
+                Rect rectJoueurPotentiel = new Rect(
+                    potentialX,
+                    potentialY,
+                    joueurWidth,
+                    joueurHeight);
+
+                bool collisionTrouvee = false;
+
+                foreach (Rect zoneBloquante in _zonesCollisions)
+                {
+                    // La méthode IntersectsWith vérifie si deux rectangles se chevauchent
+                    if (rectJoueurPotentiel.IntersectsWith(zoneBloquante))
+                    {
+                        collisionTrouvee = true;
+                        break; // Pas besoin de vérifier les autres zones
+                    }
+                }
+
+                // 3. APPLICATION DU MOUVEMENT
+                if (!collisionTrouvee)
+                {
+                    // SI AUCUNE COLLISION : On met à jour la position
+                    Canvas.SetLeft(ImgJoueur, potentialX);
+                    Canvas.SetTop(ImgJoueur, potentialY);
+                }
+                else
+                {
+                    // SI COLLISION : Le mouvement est annulé (les positions restent currentX/Y)
+                    // Tu peux ajouter ici un son de "bump" si tu veux.
+                }
+
+                e.Handled = true;
+            }
             if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; }
 
             if (utiliseZQSD)

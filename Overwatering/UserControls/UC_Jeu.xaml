@@ -15,6 +15,27 @@
             <ImageBrush ImageSource="/Assets/ImagesMenu/JeuBackground.png" Stretch="UniformToFill"/>
         </Grid.Background>
 
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10, 10, 0, 420">
+                <TextBlock Text="" FontSize="18" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Width="51" Height="22">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                    <TextBlock.Background>
+                        <ImageBrush ImageSource="/Assets/ImagesJeu/ImagesShop/coin.png"/>
+                    </TextBlock.Background>
+                </TextBlock>
+                <TextBlock x:Name="TxtSoldePieces" Text="10" FontSize="18" FontWeight="Bold" Foreground="#FFD700"/>
+            </StackPanel>
+
+        </Grid>
+
+        <Rectangle x:Name="ColisionPuit" ></Rectangle>
         <Canvas x:Name="Canvas" Grid.RowSpan="2" Background="Transparent">
             <Image x:Name="ImgJoueur"
                    Width="64" Height="64"  
@@ -40,11 +61,14 @@
 
         </Canvas>
 
-        <Canvas x:Name="CanvasJeu" Background="Transparent">
+        <Canvas x:Name="CanvasJeu" Background="Transparent" Margin="0,10,0,-10">
             <Image x:Name="ImgPerso"
                    Width="50" Height="60"  
                    Canvas.Left="475" Canvas.Top="200"
                    RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+            <Image Height="30" Canvas.Left="601" Source="/Assets/ImagesJeu/ImagesShop/daisyseed.png" Stretch="Fill" Canvas.Top="126" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Image Height="30" Canvas.Left="597" Source="/Assets/ImagesJeu/ImagesShop/roseseed.png" Stretch="Fill" Canvas.Top="170" Width="38" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image Height="30" Canvas.Left="597" Source="/Assets/ImagesJeu/ImagesShop/sunflowerseed.png" Stretch="Fill" Canvas.Top="215" Width="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Canvas>
 
         <Button x:Name="butPause" Content="⏸️"

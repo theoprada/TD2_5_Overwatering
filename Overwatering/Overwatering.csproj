@@ -20,6 +20,7 @@
     <None Remove="Assets\ImagesJeu\ImagesFleurs\sunfloweradulte.png" />
     <None Remove="Assets\ImagesJeu\ImagesFleurs\sunflowerfanee.png" />
     <None Remove="Assets\ImagesJeu\ImagesFleurs\sunflowerpousse.png" />
+    <None Remove="Assets\ImagesJeu\ImagesShop\coin.png" />
     <None Remove="Assets\ImagesJeu\ImagesShop\daisyseed.png" />
     <None Remove="Assets\ImagesJeu\ImagesShop\roseseed.png" />
     <None Remove="Assets\ImagesJeu\ImagesShop\sunflowerseed.png" />
@@ -77,6 +78,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesJeu\ImagesFleurs\sunflowerpousse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\ImagesShop\coin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesJeu\ImagesShop\daisyseed.png">
