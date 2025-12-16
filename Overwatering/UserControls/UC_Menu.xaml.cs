@@ -13,7 +13,11 @@ namespace Overwatering
 
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw) mw.LancerJeu();
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                // On appelle la méthode qui remet à zéro les vies et le jardin
+                mw.LancerNouvellePartie();
+            }
         }
 
         private void btnRegles_Click(object sender, RoutedEventArgs e)

@@ -12,7 +12,11 @@ namespace Overwatering
 
         private void Rejouer_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw) mw.LancerJeu();
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                // On appelle la nouvelle méthode qui remet tout à zéro
+                mw.LancerNouvellePartie();
+            }
         }
 
         private void Menu_Click(object sender, RoutedEventArgs e)

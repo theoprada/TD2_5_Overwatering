@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Overwatering.UC_Boutique"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="450" Width="800"
+             Loaded="UC_Boutique_Loaded">
+
+    <UserControl.Resources>
+        <Style x:Key="BtnAchat" TargetType="Button">
+            <Setter Property="FontFamily" Value="Kristen ITC"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="LawnGreen"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderBrush="Black" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/ImagesMenu/JeuBackground.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+
+        <Border Background="#DDFFFFFF" CornerRadius="20" Margin="50,20,50,20" BorderBrush="Brown" BorderThickness="4">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock Text="GRAINERIE" FontFamily="Kristen ITC" FontSize="40" FontWeight="Bold" Foreground="Brown" HorizontalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Image Source="/Assets/ImagesJeu/ImagesShop/coin.png" Width="30" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="TxtArgent" Text="0" FontSize="25" FontWeight="Bold" Foreground="Yellow">
+                            <TextBlock.Effect>
+                                <DropShadowEffect ShadowDepth="2"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Margin="10" Background="#FFF8DC" CornerRadius="10" BorderBrush="Orange" BorderThickness="2">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/ImagesJeu/ImagesShop/daisyseed.png" Width="60" Height="60" Margin="0,0,0,10"/>
+                            <TextBlock Text="Marguerite" FontFamily="Kristen ITC" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="10 Pièces" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <Button x:Name="btnBuyDaisy" Content="ACHETER" Width="100" Height="30" Style="{StaticResource BtnAchat}" Click="BtnBuyDaisy_Click"/>
+                            <TextBlock x:Name="TxtStockDaisy" Text="Possédé : 0" FontSize="10" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Margin="10" Background="#FFF0F5" CornerRadius="10" BorderBrush="Red" BorderThickness="2">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/ImagesJeu/ImagesShop/roseseed.png" Width="60" Height="60" Margin="0,0,0,10"/>
+                            <TextBlock Text="Rose" FontFamily="Kristen ITC" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="20 Pièces" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <Button x:Name="btnBuyRose" Content="ACHETER" Width="100" Height="30" Style="{StaticResource BtnAchat}" Click="BtnBuyRose_Click"/>
+                            <TextBlock x:Name="TxtStockRose" Text="Possédé : 0" FontSize="10" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Margin="10" Background="#FFFFE0" CornerRadius="10" BorderBrush="Goldenrod" BorderThickness="2">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/ImagesJeu/ImagesShop/sunflowerseed.png" Width="60" Height="60" Margin="0,0,0,10"/>
+                            <TextBlock Text="Tournesol" FontFamily="Kristen ITC" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <TextBlock Text="30 Pièces" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <Button x:Name="btnBuySun" Content="ACHETER" Width="100" Height="30" Style="{StaticResource BtnAchat}" Click="BtnBuySun_Click"/>
+                            <TextBlock x:Name="TxtStockSun" Text="Possédé : 0" FontSize="10" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Button Grid.Row="2" Content="RETOUR AU JARDIN" Click="BtnRetour_Click" 
+                        Width="200" Height="40" Background="Red" Foreground="White" 
+                        FontFamily="Kristen ITC" FontSize="16" FontWeight="Bold">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="10" BorderBrush="Black" BorderThickness="2">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

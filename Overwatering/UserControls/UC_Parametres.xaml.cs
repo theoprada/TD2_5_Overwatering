@@ -8,16 +8,18 @@ namespace Overwatering
         public UC_Parametres()
         {
             InitializeComponent();
+            ChargerDonnees();
         }
 
-        private void UCParametres_Loaded(object sender, RoutedEventArgs e)
+        // 1. Lire les infos sauvegardées
+        private void ChargerDonnees()
         {
-            // Récupère les paramètres depuis la MainWindow et initialise les contrôles
             if (Application.Current.MainWindow is MainWindow mw)
             {
+                // On remet le slider au bon endroit
                 sliderVolume.Value = mw.VolumeJeu;
 
-                // Détermine l'index du ComboBox selon le TypeControle
+                // On remet la liste déroulante sur le bon choix
                 if (mw.TypeControle == "ZQSD")
                     ComboControles.SelectedIndex = 0;
                 else
@@ -25,30 +27,38 @@ namespace Overwatering
             }
         }
 
-        private void ButValider_Click(object sender, RoutedEventArgs e)
+        // 2. Sauvegarder et Quitter
+        private void SauvegarderEtQuitter()
         {
             if (Application.Current.MainWindow is MainWindow mw)
             {
-                // Enregistre le volume
+                // Sauvegarde du volume
                 mw.VolumeJeu = sliderVolume.Value;
 
-                // Enregistre le type de contrôle (Tag des ComboBoxItem)
-                if (ComboControles.SelectedItem is ComboBoxItem cbi && cbi.Tag != null)
-                {
-                    mw.TypeControle = cbi.Tag.ToString();
-                }
+                // Sauvegarde des touches
+                if (ComboControles.SelectedIndex == 0)
+                    mw.TypeControle = "ZQSD";
+                else
+                    mw.TypeControle = "FLECHES";
 
                 // Retour au menu
                 mw.AfficheMenu();
             }
         }
 
+        // Bouton Valider
+        private void ButValider_Click(object sender, RoutedEventArgs e)
+        {
+            SauvegarderEtQuitter();
+        }
+
+        // Bouton Retour
         private void butRetour_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw)
-            {
-                mw.AfficheMenu();
-            }
+            SauvegarderEtQuitter();
         }
+
+        // (Laisse la méthode Loaded vide ou supprime-la du XAML si elle t'embête)
+        private void UCParametres_Loaded(object sender, RoutedEventArgs e) { }
     }
 }
