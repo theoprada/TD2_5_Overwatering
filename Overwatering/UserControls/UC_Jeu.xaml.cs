@@ -8,10 +8,39 @@ using System.Windows.Threading;
 
 namespace Overwatering
 {
+    public enum TypeFleur
+    {
+        Rose,
+        Tulipe,
+        Lys
+    }
+
+    // 2. Représenter une commande de client
+    public class CommandeClient
+    {
+        public TypeFleur FleurDemandee { get; private set; }
+        public int QuantiteDemandee { get; private set; }
+
+        public CommandeClient(TypeFleur fleur, int quantite = 1)
+        {
+            FleurDemandee = fleur;
+            QuantiteDemandee = quantite;
+        }
+
+        public override string ToString()
+        {
+            return $"{QuantiteDemandee}x {FleurDemandee}";
+        }
+    }
     public partial class UC_Jeu : UserControl
     {
         // --- 1. VARIABLES ---
-        DispatcherTimer gameTimer = new DispatcherTimer();
+        private Random _random = new Random();
+        private const double VITESSE = 5.0;
+        private DispatcherTimer _timerClients;
+
+        private bool _clientPresent = false;
+        private CommandeClient _commandeActuelle;
 
         // Déplacement
         double vitesse = 2; // Reduced from 4 to 2 to slow movement
@@ -33,12 +62,70 @@ namespace Overwatering
         public UC_Jeu()
         {
             InitializeComponent();
+            InitialiserTimerClients();
 
             // Configuration du Timer (Boucle de jeu)
             // Utiliser CompositionTarget.Rendering pour des mises à jour synchronisées au rendu (plus fluide)
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
+        private void InitialiserTimerClients()
+        {
+            _timerClients = new DispatcherTimer();
+            _timerClients.Interval = TimeSpan.FromSeconds(5);
+            _timerClients.Tick += TimerClients_Tick;
+            _timerClients.Start();
+        }
+
+        private void TimerClients_Tick(object sender, EventArgs e)
+        {
+            if (!_clientPresent)
+            {
+                FaireApparaitreNouveauClient();
+            }
+        }
+
+        private void FaireApparaitreNouveauClient()
+        {
+            _clientPresent = true;
+            // ... (Logique d'affichage du client) ...
+            ImgClient.Visibility = Visibility.Visible;
+
+            _commandeActuelle = GenererCommandeAleatoire();
+            TxtFleurDemandee.Text = $"Fleur: {_commandeActuelle.FleurDemandee}";
+            BulleCommande.Visibility = Visibility.Visible;
+        }
+
+        private CommandeClient GenererCommandeAleatoire()
+        {
+            Array values = Enum.GetValues(typeof(TypeFleur));
+            TypeFleur randomFleur = (TypeFleur)values.GetValue(_random.Next(values.Length));
+
+            int randomQuantite = _random.Next(1, 4);
+            return new CommandeClient(randomFleur, randomQuantite);
+        }
+
+        public void ServirClient()
+        {
+            if (_clientPresent && _commandeActuelle != null)
+            {
+                // TODO: Vérifier si le joueur a les bonnes fleurs en stock
+                // Pour l'instant, on suppose que c'est bon et on fait partir le client
+
+                MessageBox.Show($"Client servi avec {_commandeActuelle.ToString()}!");
+                FairePartirClient();
+            }
+        }
+
+        // NOUVEAU : Faire partir le client
+        private void FairePartirClient()
+        {
+            _clientPresent = false;
+            ImgClient.Visibility = Visibility.Collapsed;
+            BulleCommande.Visibility = Visibility.Collapsed;
+            _commandeActuelle = null; // Réinitialiser la commande
+            // Le timer fera apparaître un nouveau client après son prochain déclenchement
+        }
         private void CompositionTarget_Rendering(object? sender, EventArgs e)
         {
             GameLoop(sender, e);
@@ -175,6 +262,24 @@ namespace Overwatering
                 if (e.Key == Key.Down) { bas = true; e.Handled = true; }
                 if (e.Key == Key.Left) { gauche = true; e.Handled = true; }
                 if (e.Key == Key.Right) { droite = true; e.Handled = true; }
+            }
+            switch (e.Key)
+            {
+                case Key.E: // Exemple : Appuyer sur E pour interagir
+                            // Vérifie si le joueur est proche du client
+                    double joueurX = Canvas.GetLeft(ImgJoueur);
+                    double joueurY = Canvas.GetTop(ImgJoueur);
+                    double clientX = Canvas.GetLeft(ImgClient);
+                    double clientY = Canvas.GetTop(ImgClient);
+
+                    // Si le client est présent et le joueur est à proximité
+                    if (_clientPresent &&
+                        Math.Abs(joueurX - clientX) < 80 && // Distance arbitraire
+                        Math.Abs(joueurY - clientY) < 80)
+                    {
+                        ServirClient(); // Appeler la méthode de service
+                    }
+                    break;
             }
         }
 

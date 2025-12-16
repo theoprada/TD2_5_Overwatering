@@ -26,6 +26,7 @@
     <None Remove="Assets\ImagesJeu\persoAvance1.png" />
     <None Remove="Assets\ImagesJeu\persoAvance2.png" />
     <None Remove="Assets\ImagesJeu\persoAvanceNeutre.png" />
+    <None Remove="Assets\ImagesJeu\persoClient.png" />
     <None Remove="Assets\ImagesJeu\persoDroite1.png" />
     <None Remove="Assets\ImagesJeu\persoDroite2.png" />
     <None Remove="Assets\ImagesJeu\persoDroiteNeutre.png" />
@@ -94,6 +95,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesJeu\persoAvanceNeutre.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ImagesJeu\persoClient.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\ImagesJeu\persoDroite1.png">
