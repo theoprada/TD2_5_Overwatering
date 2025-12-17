@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\EffetsSons\coinSound.mp3" />
+    <None Remove="Assets\EffetsSons\InterfaceSound.mp3" />
+    <None Remove="Assets\EffetsSons\RecolteFleur.mp3" />
     <None Remove="Assets\ImagesJeu\ImagesFleurs\daisyadulte.png" />
     <None Remove="Assets\ImagesJeu\ImagesFleurs\daisyfanee.png" />
     <None Remove="Assets\ImagesJeu\ImagesFleurs\daisypousse.png" />
@@ -44,6 +47,18 @@
     <None Remove="Overwatering-10-12-2025 %281%29.png" />
     <None Remove="param_sae-removebg-preview.png" />
     <None Remove="pixel-art-farm-landscape-barn-260nw-2192418943.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\EffetsSons\coinSound.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\EffetsSons\InterfaceSound.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\EffetsSons\RecolteFleur.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

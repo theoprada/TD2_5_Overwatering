@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,437 +9,571 @@ using System.Windows.Threading;
 
 namespace Overwatering
 {
-    public enum TypeFleur
-    {
-        Rose,
-        Tulipe,
-        Lys
-    }
-
-    // 2. Représenter une commande de client
-    public class CommandeClient
-    {
-        public TypeFleur FleurDemandee { get; private set; }
-        public int QuantiteDemandee { get; private set; }
-
-        public CommandeClient(TypeFleur fleur, int quantite = 2)
-        {
-            FleurDemandee = fleur;
-            QuantiteDemandee = quantite;
-        }
-
-        public override string ToString()
-        {
-            return $"{QuantiteDemandee}x {FleurDemandee}";
-        }
-    }
     public partial class UC_Jeu : UserControl
     {
-        // --- 1. VARIABLES ---
-        private Random _random = new Random();
-        private const double VITESSE = 5.0;
-        private DispatcherTimer _timerClients;
+        // --- CONSTANTES ---
+        private const int JardinRows = 3;
+        private const int JardinCols = 3;
+        private const int PanierSize = 4;
 
-        private bool _clientPresent = false;
-        private CommandeClient _commandeActuelle;
-        
+        // --- VARIABLES STATIQUES ---
+        private static Fleur?[,] jardin = new Fleur?[JardinRows, JardinCols];
+        private static Fleur?[] panier = new Fleur?[PanierSize];
+        private static Client? clientActuel = null;
 
-        // Déplacement
-        double vitesse = 2; // Reduced from 4 to 2 to slow movement
-        double persoX = 375;
-        double persoY = 200;
+        // --- MOTEUR ---
+        private readonly DispatcherTimer gameTimer = new DispatcherTimer();
+        private readonly Button?[,] boutonsJardin = new Button?[JardinRows, JardinCols];
 
-        // Touches actives
-        bool haut, bas, gauche, droite;
+        // --- PHYSIQUE ---
+        private double persoX = 375, persoY = 200;
+        private bool haut, bas, gauche, droite;
+        private bool utiliseZQSD = true;
 
-        // Paramètres
-        bool utiliseZQSD = true; // Sera chargé depuis MainWindow
+        // Inertie
+        private double velX = 0.0, velY = 0.0;
+        private double maxSpeed = 240.0;
+        private double acceleration = 2000.0;
+        private double damping = 8.0;
 
-        // Animation
-        // On retient la dernière direction pour savoir quelle image afficher quand on s'arrête
-        string direction = "Recule"; // Valeurs possibles: "Avance", "Recule", "Gauche", "Droite"
-        int numImage = 1; // 1 ou 2 pour l'effet de marche
-        int compteurTemps = 0; // Ralentisseur d'animation
-        private List<System.Windows.Shapes.Rectangle> _zonesCollisions;
+        // Rendu
+        private Stopwatch stopwatch;
+        private TimeSpan lastFrameTime;
+        private bool isRunning = true;
+        private TranslateTransform? imgTransform;
+
+        // --- GAMEPLAY ---
+        private readonly Rect zoneBoutique = new Rect(550, 50, 150, 150);
+        private string outilEnMain = "Main";
+        private string direction = "Recule";
+        private int numImage = 1;
+        private int compteurTempsAnim = 0;
+        private int tempsApparitionClient = 0;
+
         public UC_Jeu()
         {
             InitializeComponent();
-            InitialiserTimerClients();
-            InitialiserCollisions();
 
-            // Configuration du Timer (Boucle de jeu)
-            // Utiliser CompositionTarget.Rendering pour des mises à jour synchronisées au rendu (plus fluide)
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
-        }
-        private void InitialiserCollisions()
-        {
-            _zonesCollisions = new List<System.Windows.Shapes.Rectangle>()
-            {
-                ColisionPuit,
-                ColisionArbreGauche,
-                ColisionArbreDroit,
-                ColisionArbreHautGauche,
-                ColisionArbreHautDroit,
-                ColisionArbreBas
+            // 1. Timer Logique (0.1s)
+            gameTimer.Interval = TimeSpan.FromMilliseconds(100);
+            gameTimer.Tick += GameLogicTick;
+
+            // 2. Timer Rendu (60 FPS)
+            stopwatch = Stopwatch.StartNew();
+            lastFrameTime = stopwatch.Elapsed;
+            CompositionTarget.Rendering += OnRendering;
+
+            // Nettoyage
+            Unloaded += (s, e) => {
+                CompositionTarget.Rendering -= OnRendering;
+                gameTimer.Stop();
             };
-
-            foreach (var collision in _zonesCollisions)
-            {
-                collision.Visibility = Visibility.Collapsed;
-            }
-            
-        }
-
-        private void InitialiserTimerClients()
-        {
-            _timerClients = new DispatcherTimer();
-            _timerClients.Interval = TimeSpan.FromSeconds(5);
-            _timerClients.Tick += TimerClients_Tick;
-            _timerClients.Start();
-        }
-
-        private void TimerClients_Tick(object sender, EventArgs e)
-        {
-            if (!_clientPresent)
-            {
-                FaireApparaitreNouveauClient();
-            }
-        }
-
-        private void FaireApparaitreNouveauClient()
-        {
-            _clientPresent = true;
-            // ... (Logique d'affichage du client) ...
-            ImgClient.Visibility = Visibility.Visible;
-
-            _commandeActuelle = GenererCommandeAleatoire();
-            TxtFleurDemandee.Text = $"Fleur: {_commandeActuelle.FleurDemandee}";
-            BulleCommande.Visibility = Visibility.Visible;
-        }
-
-        private CommandeClient GenererCommandeAleatoire()
-        {
-            Array values = Enum.GetValues(typeof(TypeFleur));
-            TypeFleur randomFleur = (TypeFleur)values.GetValue(_random.Next(values.Length));
-
-            int randomQuantite = _random.Next(1, 4);
-            return new CommandeClient(randomFleur, randomQuantite);
-        }
-
-        public void ServirClient()
-        {
-            if (_clientPresent && _commandeActuelle != null)
-            {
-                // TODO: Vérifier si le joueur a les bonnes fleurs en stock
-                // Pour l'instant, on suppose que c'est bon et on fait partir le client
-
-                MessageBox.Show($"Client servi avec {_commandeActuelle.ToString()}!");
-                FairePartirClient();
-            }
-        }
-
-        // NOUVEAU : Faire partir le client
-        private void FairePartirClient()
-        {
-            _clientPresent = false;
-            ImgClient.Visibility = Visibility.Collapsed;
-            BulleCommande.Visibility = Visibility.Collapsed;
-            _commandeActuelle = null; // Réinitialiser la commande
-            // Le timer fera apparaître un nouveau client après son prochain déclenchement
-        }
-        private void CompositionTarget_Rendering(object? sender, EventArgs e)
-        {
-            GameLoop(sender, e);
         }
 
         private void UC_Jeu_Loaded(object sender, RoutedEventArgs e)
         {
-            // IMPORTANT : Donner le focus au jeu pour capter le clavier
             this.Focus();
             Keyboard.Focus(this);
 
-            // Récupérer le choix des touches (ZQSD ou Flèches)
             if (Application.Current.MainWindow is MainWindow mw)
             {
                 utiliseZQSD = (mw.TypeControle == "ZQSD");
+                if (txtArgent != null) txtArgent.Text = mw.Argent.ToString();
+                if (txtVies != null) txtVies.Text = mw.Vies.ToString();
             }
 
-            // Afficher le perso tout de suite (à l'arrêt)
+            imgTransform = new TranslateTransform();
+            if (ImgPerso != null)
+            {
+                ImgPerso.RenderTransform = imgTransform;
+                Canvas.SetLeft(ImgPerso, 0);
+                Canvas.SetTop(ImgPerso, 0);
+            }
+
+            InitialiserGrilleGraphique();
+            RestaurerAffichageJardin();
+            RestaurerAffichagePanier();
+            RestaurerClient();
             MettreAJourSprite(true);
+
+            gameTimer.Start();
         }
 
-        // --- 2. BOUCLE DE JEU ---
-        private void GameLoop(object sender, EventArgs e)
+        // --- PHYSIQUE & COLLISIONS (C'est ici qu'on a modifié !) ---
+        private void OnRendering(object? sender, EventArgs e)
         {
-            // Si le menu pause est visible, on ne bouge pas
-            if (MenuPauseOverlay.Visibility == Visibility.Visible) return;
+            if (!isRunning || (MenuPauseOverlay != null && MenuPauseOverlay.Visibility == Visibility.Visible)) return;
 
-            bool bouge = false;
+            var now = stopwatch.Elapsed;
+            double dt = (now - lastFrameTime).TotalSeconds;
+            if (dt > 0.05) dt = 0.05;
+            lastFrameTime = now;
 
-            // Déplacement
-            if (haut) { persoY -= vitesse; direction = "Avance"; bouge = true; }
-            if (bas) { persoY += vitesse; direction = "Recule"; bouge = true; }
-            if (gauche) { persoX -= vitesse; direction = "Gauche"; bouge = true; }
-            if (droite) { persoX += vitesse; direction = "Droite"; bouge = true; }
+            // Inputs
+            double inputX = 0, inputY = 0;
+            if (haut) inputY -= 1;
+            if (bas) inputY += 1;
+            if (gauche) inputX -= 1;
+            if (droite) inputX += 1;
 
-            // Collisions avec les bords de l'écran (800x450)
-            if (persoX < 0) persoX = 0;
-            if (persoY < 0) persoY = 0;
-            if (persoX > 750) persoX = 750; // Largeur fenêtre - Largeur perso
-            if (persoY > 390) persoY = 390; // Hauteur fenêtre - Hauteur perso
-
-            // Appliquer la position
-            Canvas.SetLeft(ImgPerso, persoX);
-            Canvas.SetTop(ImgPerso, persoY);
-
-            // Gérer l'animation
-            if (bouge)
+            // Physique (Vitesse)
+            double inputLength = Math.Sqrt(inputX * inputX + inputY * inputY);
+            double targetVX = 0, targetVY = 0;
+            if (inputLength > 0)
             {
-                compteurTemps++;
-                // Changer d'image toutes les 10 frames (pour pas clignoter trop vite)
-                if (compteurTemps > 10)
+                targetVX = (inputX / inputLength) * maxSpeed;
+                targetVY = (inputY / inputLength) * maxSpeed;
+            }
+
+            velX += (targetVX - velX) * (acceleration * dt / maxSpeed) * 5;
+            velY += (targetVY - velY) * (acceleration * dt / maxSpeed) * 5;
+
+            // --- NOUVELLE GESTION DES COLLISIONS ---
+
+            // 1. Calcul de la position future théorique
+            double futurX = persoX + velX * dt;
+            double futurY = persoY + velY * dt;
+
+            // 2. Vérification des murs (Basé sur ton tracé rouge)
+
+            // A. Mur Gauche (Les arbres à gauche)
+            if (futurX < 80)
+            {
+                futurX = 80;
+                velX = 0; // Stop l'inertie
+            }
+
+            // B. Mur Droite (Les arbres à droite)
+            if (futurX > 670)
+            {
+                futurX = 670;
+                velX = 0;
+            }
+
+            // C. Mur Bas (Les arbres en bas)
+            if (futurY > 340)
+            {
+                futurY = 340;
+                velY = 0;
+            }
+
+            // D. Mur Haut (Complexe : arbres à gauche, passage à droite)
+            bool dansCheminBoutique = (futurX > 520); // Est-ce qu'on est face au chemin ?
+
+            if (dansCheminBoutique)
+            {
+                // On peut monter plus haut (vers la boutique)
+                if (futurY < 50)
                 {
-                    compteurTemps = 0;
-                    if (numImage == 1) numImage = 2; else numImage = 1; // Alterne 1 et 2
-                    MettreAJourSprite(false); // false = il marche
+                    futurY = 50;
+                    velY = 0;
                 }
             }
             else
             {
-                // Si on ne bouge pas, on remet l'image neutre
-                MettreAJourSprite(true); // true = à l'arrêt
-            }
-        }
-
-        // --- 3. GESTION DE L'IMAGE (SPRITE) ---
-        private void MettreAJourSprite(bool estArrete)
-        {
-            // Construction du nom de fichier selon tes assets
-            // Exemple : "persoAvance1.png" ou "persoAvanceNeutre.png"
-            // Dossier : Assets/ImagesJeu/
-
-            string suffixe;
-            if (estArrete)
-                suffixe = "Neutre";
-            else
-                suffixe = numImage.ToString(); // "1" ou "2"
-
-            string nomFichier = "perso" + direction + suffixe + ".png";
-
-            // Chemin complet pour WPF
-            string chemin = $"/Assets/ImagesJeu/{nomFichier}";
-
-            try
-            {
-                ImgPerso.Source = new BitmapImage(new Uri(chemin, UriKind.Relative));
-            }
-            catch
-            {
-                // Si une image manque, ça ne plante pas le jeu
-            }
-        }
-
-        // --- 4. CLAVIER ---
-        private void UC_Jeu_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Intercepter les touches de déplacement ici pour empêcher la navigation entre contrôles
-            if (utiliseZQSD)
-            {
-                if (e.Key == Key.Z) { haut = true; e.Handled = true; }
-                if (e.Key == Key.S) { bas = true; e.Handled = true; }
-                if (e.Key == Key.Q) { gauche = true; e.Handled = true; }
-                if (e.Key == Key.D) { droite = true; e.Handled = true; }
-            }
-            else
-            {
-                if (e.Key == Key.Up) { haut = true; e.Handled = true; }
-                if (e.Key == Key.Down) { bas = true; e.Handled = true; }
-                if (e.Key == Key.Left) { gauche = true; e.Handled = true; }
-                if (e.Key == Key.Right) { droite = true; e.Handled = true; }
-            }
-
-            if (e.Key == Key.Escape)
-            {
-                TogglePause();
-                e.Handled = true;
-            }
-        }
-
-        private void UC_Jeu_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Garde la compatibilité - traite aussi et marque handled
-
-            if (MenuPauseOverlay.Visibility == Visibility.Visible) return;
-
-            // Position actuelle
-            double currentX = Canvas.GetLeft(ImgJoueur);
-            double currentY = Canvas.GetTop(ImgJoueur);
-
-            // Position potentielle (nouvelle position)
-            double potentialX = currentX;
-            double potentialY = currentY;
-
-            // Hauteur et Largeur du personnage (pour la zone de collision du joueur)
-            double joueurWidth = ImgJoueur.Width;
-            double joueurHeight = ImgJoueur.Height;
-            bool aBouge = false;
-
-            // 1. CALCUL DE LA NOUVELLE POSITION POTENTIELLE
-            // (On utilise potentialX/Y au lieu de newX/Y)
-
-            // ... Ton code pour déterminer la direction (ZQSD ou Flèches) ...
-            // ... (Exemple pour Z) ...
-
-            // Si TypeControle == "ZQSD":
-            switch (e.Key)
-            {
-                case Key.Z: // Haut
-                    potentialY -= VITESSE;
-                    // ... (Mise à jour du sprite) ...
-                    aBouge = true;
-                    break;
-                case Key.S: // Bas
-                    potentialY += VITESSE;
-                    // ... (Mise à jour du sprite) ...
-                    aBouge = true;
-                    break;
-                    // ... (Q et D) ...
-            }
-            // ... (Logique pour les Flèches) ...
-
-
-            // 2. VÉRIFICATION DE LA COLLISION
-            if (aBouge)
-            {
-
-
-                // Définir les quatre points potentiels du joueur
-                System.Windows.Point coinHautGauche = new System.Windows.Point(potentialX, potentialY);
-                System.Windows.Point coinHautDroit = new System.Windows.Point(potentialX + joueurWidth, potentialY);
-                System.Windows.Point coinBasGauche = new System.Windows.Point(potentialX, potentialY + joueurHeight);
-                System.Windows.Point coinBasDroit = new System.Windows.Point(potentialX + joueurWidth, potentialY + joueurHeight);
-
-                bool collisionTrouvee = false;
-
-                foreach (Rectangle collision in _zonesCollisions)
+                // On est bloqué plus bas par les arbres
+                if (futurY < 130)
                 {
-                    // Conversion du Rectangle XAML en un Rect WPF standard pour la vérification
-                    // Attention : On doit utiliser la marge si les propriétés Canvas.Left/Top ne sont pas utilisées.
-                    // La façon la plus fiable est de lire ses coordonnées réelles.
+                    futurY = 130;
+                    velY = 0;
+                }
+            }
 
-                    // On vérifie si l'obstacle est visible et a une taille
-                    if (collision.Width > 0 && collision.Height > 0)
+            // 3. Application de la position validée
+            persoX = futurX;
+            persoY = futurY;
+
+            // 4. Mise à jour visuelle
+            if (imgTransform != null)
+            {
+                imgTransform.X = persoX;
+                imgTransform.Y = persoY;
+            }
+
+            // Interactions
+            VerifierEntreeBoutique();
+
+            // Animation
+            bool bouge = (Math.Abs(velX) > 10.0 || Math.Abs(velY) > 10.0);
+            if (bouge)
+            {
+                if (Math.Abs(velX) > Math.Abs(velY)) direction = velX > 0 ? "Droite" : "Gauche";
+                else direction = velY > 0 ? "Recule" : "Avance";
+
+                compteurTempsAnim++;
+                if (compteurTempsAnim > 8)
+                {
+                    compteurTempsAnim = 0;
+                    numImage = (numImage == 1) ? 2 : 1;
+                    MettreAJourSprite(false);
+                }
+            }
+            else
+            {
+                MettreAJourSprite(true);
+            }
+        }
+
+        // --- LOGIQUE (Timer) ---
+        private void GameLogicTick(object? sender, EventArgs e)
+        {
+            if (MenuPauseOverlay != null && MenuPauseOverlay.Visibility == Visibility.Visible) return;
+
+            // A. Croissance des plantes
+            for (int i = 0; i < JardinRows; i++)
+            {
+                for (int j = 0; j < JardinCols; j++)
+                {
+                    var f = jardin[i, j];
+                    if (f != null)
                     {
-                        // Obtenir la position absolue (X, Y) du coin supérieur gauche de l'obstacle
-                        double obstacleX = Canvas.GetLeft(collision);
-                        double obstacleY = Canvas.GetTop(collision);
+                        f.TempsCroissance++;
 
-                        // Correction: Si vous utilisez la propriété Margin pour positionner, Canvas.GetLeft/Top sera NaN ou 0.
-                        // SI TU UTILISES MARGIN, IL FAUT UTILISER LES COORDONNÉES DÉFINIES DANS InitialiserObstacles
-
-                        // Pour utiliser la méthode Contains, il faut le Rect de l'obstacle :
-                        Rect rectObstacle = new Rect(obstacleX, obstacleY, collision.Width, collision.Height);
-
-                        // Vérification du chevauchement de n'importe quel point
-                        if (rectObstacle.Contains(coinHautGauche) ||
-                            rectObstacle.Contains(coinHautDroit) ||
-                            rectObstacle.Contains(coinBasGauche) ||
-                            rectObstacle.Contains(coinBasDroit))
+                        if (f.StadeActuel == Stade.Graine && f.TempsCroissance > 30)
                         {
-                            collisionTrouvee = true;
-                            break;
+                            f.StadeActuel = Stade.Pousse;
+                        }
+                        else if (f.StadeActuel == Stade.Pousse && f.TempsCroissance > 80)
+                        {
+                            f.StadeActuel = Stade.Adulte;
+                        }
+                        // La fleur fane si on attend trop (400 ticks = 40 secondes)
+                        else if (f.StadeActuel == Stade.Adulte && f.TempsCroissance > 400)
+                        {
+                            f.StadeActuel = Stade.Fanee;
+                        }
+
+                        MettreAJourImagePlante(i, j, f);
+                    }
+                }
+            }
+
+            // B. Gestion du Client
+            if (clientActuel == null)
+            {
+                tempsApparitionClient++;
+                if (tempsApparitionClient > 50)
+                {
+                    GenererClient();
+                    tempsApparitionClient = 0;
+                }
+            }
+            else
+            {
+                clientActuel.Patience -= 10;
+
+                if (clientActuel.Patience <= 0)
+                {
+                    clientActuel = null;
+                    RestaurerClient();
+
+                    if (Application.Current.MainWindow is MainWindow mw)
+                    {
+                        mw.Vies--;
+                        if (txtVies != null) txtVies.Text = mw.Vies.ToString();
+
+                        if (mw.Vies <= 0)
+                        {
+                            gameTimer.Stop();
+                            isRunning = false;
+                            mw.AfficheGameOver();
                         }
                     }
                 }
+                VerifierVente();
+            }
+        }
 
-                // 3. APPLICATION DU MOUVEMENT
-                if (!collisionTrouvee)
+        // --- INTERACTIONS ---
+        private void CaseJardin_Click(object? sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn || btn.Tag is not Point p) return;
+            int x = (int)p.X;
+            int y = (int)p.Y;
+
+            var f = jardin[x, y];
+            if (Application.Current.MainWindow is not MainWindow mw) return;
+
+            // 1. PLANTER
+            if (f == null)
+            {
+                if (outilEnMain == "Graine_Marguerite" && mw.GrainesMarguerite > 0)
                 {
-                    Canvas.SetLeft(ImgJoueur, potentialX);
-                    Canvas.SetTop(ImgJoueur, potentialY);
+                    jardin[x, y] = new Fleur(TypeFleur.Marguerite);
+                    mw.GrainesMarguerite--;
                 }
+                else if (outilEnMain == "Graine_Rose" && mw.GrainesRose > 0)
+                {
+                    jardin[x, y] = new Fleur(TypeFleur.Rose);
+                    mw.GrainesRose--;
+                }
+                else if (outilEnMain == "Graine_Tournesol" && mw.GrainesTournesol > 0)
+                {
+                    jardin[x, y] = new Fleur(TypeFleur.Tournesol);
+                    mw.GrainesTournesol--;
+                }
+                MettreAJourImagePlante(x, y, jardin[x, y]);
+            }
+            // 2. RECOLTER
+            else if (f.StadeActuel == Stade.Adulte)
+            {
+                // Son de récolte (si tu as implémenté la méthode dans MainWindow)
+                try { mw.JouerSonRecolte(); } catch { }
 
-                e.Handled = true;
+                AjouterAuPanier(f);
+                jardin[x, y] = null;
+                MettreAJourImagePlante(x, y, null);
+            }
+            // 3. NETTOYER (Si Morte)
+            else if (f.StadeActuel == Stade.Fanee || f.StadeActuel == Stade.Pourrie)
+            {
+                jardin[x, y] = null;
+                MettreAJourImagePlante(x, y, null);
+            }
+        }
+
+        // --- HELPERS ---
+        private void InitialiserGrilleGraphique()
+        {
+            if (GrilleJardin == null) return;
+            GrilleJardin.Children.Clear();
+            for (int i = 0; i < JardinRows; i++)
+            {
+                for (int j = 0; j < JardinCols; j++)
+                {
+                    var btn = new Button
+                    {
+                        Background = Brushes.Transparent,
+                        BorderBrush = Brushes.Transparent,
+                        Tag = new Point(i, j)
+                    };
+                    btn.Focusable = false; // Empêche le focus des boutons
+                    btn.Click += CaseJardin_Click;
+                    btn.Content = new Image();
+                    boutonsJardin[i, j] = btn;
+                    GrilleJardin.Children.Add(btn);
+                }
+            }
+        }
+
+        private void RestaurerAffichageJardin()
+        {
+            for (int i = 0; i < JardinRows; i++)
+                for (int j = 0; j < JardinCols; j++)
+                    MettreAJourImagePlante(i, j, jardin[i, j]);
+        }
+
+        private void MettreAJourImagePlante(int x, int y, Fleur? f)
+        {
+            if (boutonsJardin[x, y]?.Content is not Image img) return;
+            if (f == null) { img.Source = null; return; }
+
+            string nom = "";
+            if (f.StadeActuel == Stade.Graine) nom = "seedpousse.png";
+            else if (f.StadeActuel == Stade.Fanee || f.StadeActuel == Stade.Pourrie)
+            {
+                nom = f.Type == TypeFleur.Marguerite ? "daisyfanee.png" : f.Type == TypeFleur.Rose ? "rosefanee.png" : "sunflowerfanee.png";
+            }
+            else
+            {
+                string type = f.Type == TypeFleur.Rose ? "rose" : f.Type == TypeFleur.Marguerite ? "daisy" : "sunflower";
+                string stade = f.StadeActuel == Stade.Pousse ? "pousse" : "adulte";
+                nom = type + stade + ".png";
             }
 
-            if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; }
+            try { img.Source = new BitmapImage(new Uri($"/Assets/ImagesJeu/ImagesFleurs/{nom}", UriKind.Relative)); } catch { }
+        }
 
+        private void AjouterAuPanier(Fleur f)
+        {
+            for (int i = 0; i < panier.Length; i++)
+            {
+                if (panier[i] == null)
+                {
+                    panier[i] = f;
+                    MettreAJourSlotPanier(i);
+                    break;
+                }
+            }
+            VerifierVente();
+        }
+
+        private void MettreAJourSlotPanier(int index)
+        {
+            var imgSlot = this.FindName($"slotPanier{index}") as Image;
+            if (imgSlot == null) return;
+            Fleur? f = panier[index];
+
+            if (f == null) imgSlot.Source = null;
+            else
+            {
+                string nom = f.Type == TypeFleur.Rose ? "roseadulte.png" : f.Type == TypeFleur.Marguerite ? "daisyadulte.png" : "sunfloweradulte.png";
+                try { imgSlot.Source = new BitmapImage(new Uri($"/Assets/ImagesJeu/ImagesFleurs/{nom}", UriKind.Relative)); } catch { }
+            }
+        }
+
+        private void RestaurerAffichagePanier()
+        {
+            for (int i = 0; i < PanierSize; i++) MettreAJourSlotPanier(i);
+        }
+
+        private void GenererClient()
+        {
+            clientActuel = new Client();
+            RestaurerClient();
+        }
+
+        private void RestaurerClient()
+        {
+            if (clientActuel == null)
+            {
+                if (imgClient != null) imgClient.Visibility = Visibility.Collapsed;
+                if (bulleCommande != null) bulleCommande.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            if (imgClient != null) imgClient.Visibility = Visibility.Visible;
+            if (bulleCommande != null) bulleCommande.Visibility = Visibility.Visible;
+
+            var demande = clientActuel.Commande[0];
+            string nom = demande == TypeFleur.Rose ? "roseadulte.png" : demande == TypeFleur.Marguerite ? "daisyadulte.png" : "sunfloweradulte.png";
+            if (imgCommandeFleur != null)
+            {
+                try { imgCommandeFleur.Source = new BitmapImage(new Uri($"/Assets/ImagesJeu/ImagesFleurs/{nom}", UriKind.Relative)); } catch { }
+            }
+        }
+
+        private void VerifierVente()
+        {
+            if (clientActuel == null) return;
+            var demandee = clientActuel.Commande[0];
+
+            for (int i = 0; i < panier.Length; i++)
+            {
+                if (panier[i] != null && panier[i].Type == demandee)
+                {
+                    panier[i] = null;
+                    MettreAJourSlotPanier(i);
+
+                    if (Application.Current.MainWindow is MainWindow mw)
+                    {
+                        mw.Argent += 15;
+                        if (txtArgent != null) txtArgent.Text = mw.Argent.ToString();
+
+                        // Son de vente (si implémenté)
+                        try { mw.JouerSonPiece(); } catch { }
+                    }
+
+                    clientActuel = null;
+                    RestaurerClient();
+                    break;
+                }
+            }
+        }
+
+        private void VerifierEntreeBoutique()
+        {
+            var rectJoueur = new Rect(persoX, persoY, 50, 60);
+            if (rectJoueur.IntersectsWith(zoneBoutique))
+            {
+                isRunning = false;
+                if (Application.Current.MainWindow is MainWindow mw) mw.AfficheBoutique();
+            }
+        }
+
+        private void MettreAJourSprite(bool estArrete)
+        {
+            var suffixe = estArrete ? "Neutre" : numImage.ToString();
+            var chemin = $"/Assets/ImagesJeu/perso{direction}{suffixe}.png";
+            try { if (ImgPerso != null) ImgPerso.Source = new BitmapImage(new Uri(chemin, UriKind.Relative)); } catch { }
+        }
+
+        // --- INPUTS ---
+        private void TraiterTouche(Key key, bool estEnfoncee)
+        {
+            // Outils
+            if (estEnfoncee)
+            {
+                if (key == Key.D1) { outilEnMain = "Main"; if (txtOutil != null) txtOutil.Text = "Outil : ✋ Main"; }
+                if (key == Key.D2) { outilEnMain = "Graine_Marguerite"; if (txtOutil != null) txtOutil.Text = "Outil : 🌱 Marguerite"; }
+                if (key == Key.D3) { outilEnMain = "Graine_Rose"; if (txtOutil != null) txtOutil.Text = "Outil : 🌹 Rose"; }
+                if (key == Key.D4) { outilEnMain = "Graine_Tournesol"; if (txtOutil != null) txtOutil.Text = "Outil : 🌻 Tournesol"; }
+            }
+
+            // Mouvement ZQSD
             if (utiliseZQSD)
             {
-                if (e.Key == Key.Z) { haut = true; e.Handled = true; }
-                if (e.Key == Key.S) { bas = true; e.Handled = true; }
-                if (e.Key == Key.Q) { gauche = true; e.Handled = true; }
-                if (e.Key == Key.D) { droite = true; e.Handled = true; }
+                if (key == Key.Z) haut = estEnfoncee;
+                if (key == Key.S) bas = estEnfoncee;
+                if (key == Key.Q) gauche = estEnfoncee;
+                if (key == Key.D) droite = estEnfoncee;
             }
-            else // Flèches
+            else // Mouvement FLÈCHES
             {
-                if (e.Key == Key.Up) { haut = true; e.Handled = true; }
-                if (e.Key == Key.Down) { bas = true; e.Handled = true; }
-                if (e.Key == Key.Left) { gauche = true; e.Handled = true; }
-                if (e.Key == Key.Right) { droite = true; e.Handled = true; }
+                if (key == Key.Up) haut = estEnfoncee;
+                if (key == Key.Down) bas = estEnfoncee;
+                if (key == Key.Left) gauche = estEnfoncee;
+                if (key == Key.Right) droite = estEnfoncee;
             }
-            switch (e.Key)
-            {
-                case Key.E: // Exemple : Appuyer sur E pour interagir
-                            // Vérifie si le joueur est proche du client
-                    double joueurX = Canvas.GetLeft(ImgJoueur);
-                    double joueurY = Canvas.GetTop(ImgJoueur);
-                    double clientX = Canvas.GetLeft(ImgClient);
-                    double clientY = Canvas.GetTop(ImgClient);
+        }
 
-                    // Si le client est présent et le joueur est à proximité
-                    if (_clientPresent &&
-                        Math.Abs(joueurX - clientX) < 80 && // Distance arbitraire
-                        Math.Abs(joueurY - clientY) < 80)
-                    {
-                        ServirClient(); // Appeler la méthode de service
-                    }
-                    break;
+        // On utilise PreviewKeyDown pour être sûr d'attraper les flèches avant qu'elles ne changent le focus
+        private void UC_Jeu_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; return; }
+
+            if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right)
+            {
+                TraiterTouche(e.Key, true);
+                e.Handled = true; // Empêche le focus de changer
+            }
+            else
+            {
+                TraiterTouche(e.Key, true);
             }
         }
 
         private void UC_Jeu_KeyUp(object sender, KeyEventArgs e)
         {
-            if (utiliseZQSD)
-            {
-                if (e.Key == Key.Z) haut = false;
-                if (e.Key == Key.S) bas = false;
-                if (e.Key == Key.Q) gauche = false;
-                if (e.Key == Key.D) droite = false;
-            }
-            else
-            {
-                if (e.Key == Key.Up) haut = false;
-                if (e.Key == Key.Down) bas = false;
-                if (e.Key == Key.Left) gauche = false;
-                if (e.Key == Key.Right) droite = false;
-            }
-
-            // Marquer handled pour éviter navigation résiduelle
-            e.Handled = true;
+            TraiterTouche(e.Key, false);
         }
 
-        // --- 5. PAUSE ---
+        // --- PAUSE ---
         private void TogglePause()
         {
+            if (MenuPauseOverlay == null) return;
             if (MenuPauseOverlay.Visibility == Visibility.Visible)
             {
                 MenuPauseOverlay.Visibility = Visibility.Collapsed;
-                this.Focus(); // Redonner le focus au jeu
-                Keyboard.Focus(this);
+                isRunning = true;
+                gameTimer.Start();
+                lastFrameTime = stopwatch.Elapsed;
+                Focus();
+                try { if (Application.Current.MainWindow is MainWindow mw) mw.JouerSonBouton(); } catch { }
             }
             else
             {
                 MenuPauseOverlay.Visibility = Visibility.Visible;
+                isRunning = false;
+                gameTimer.Stop();
+                try { if (Application.Current.MainWindow is MainWindow mw) mw.JouerSonBouton(); } catch { }
             }
         }
 
-        private void ButPause_Click(object sender, RoutedEventArgs e) => TogglePause();
-        private void ButReprendre_Click(object sender, RoutedEventArgs e) => TogglePause();
-
-        private void ButQuitterMenu_Click(object sender, RoutedEventArgs e)
+        private void ButPause_Click(object? sender, RoutedEventArgs e) => TogglePause();
+        private void ButReprendre_Click(object? sender, RoutedEventArgs e) => TogglePause();
+        private void ButQuitterMenu_Click(object? sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow is MainWindow mw) mw.AfficheMenu();
+            try { if (Application.Current.MainWindow is MainWindow mw) mw.JouerSonBouton(); } catch { }
+            if (Application.Current.MainWindow is MainWindow mw2) mw2.AfficheMenu();
+        }
+
+        // --- RESET STATIC (Pour Game Over) ---
+        public static void ResetDonneesStatic()
+        {
+            jardin = new Fleur?[JardinRows, JardinCols];
+            panier = new Fleur?[PanierSize];
+            clientActuel = null;
         }
     }
 }

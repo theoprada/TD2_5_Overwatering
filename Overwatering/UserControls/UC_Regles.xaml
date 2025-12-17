@@ -78,10 +78,6 @@
                         <TextBlock Text="Achetez des graines, plantez-les dans vos 4 pots et surveillez les." 
                                    Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
-                        <TextBlock Text="L'ARROSAGE" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
-                        <TextBlock Text="Attention à l'équilibre ! Si vous arrosez trop, la plante se noie et si pas assez, elle fane." 
-                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
-
                         <TextBlock Text="COMMANDES &amp; VIES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
                         <TextBlock Text="Les clients veulent des fleurs spécifiques. Vendez au bon moment !" 
                                    Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,5"/>
@@ -89,8 +85,10 @@
                                    Foreground="Red" FontWeight="Bold" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
 
                         <TextBlock Text="CONTRÔLES" FontFamily="Kristen ITC" Foreground="LightBlue" FontSize="22" Margin="0,0,0,5"/>
-                        <TextBlock Text="Utilisez la souris pour tout gérer (Acheter, Arroser, Vendre)." 
+                        <TextBlock Text="Déplacez-vous avec  ZQSD ou les flèches directionnelles (choix dans les paramètres)." 
                                    Foreground="White" FontSize="16" TextWrapping="Wrap"/>
+                        <TextBlock Text="Sélectionnez la main avec 1, les marguerittes avec 2, les roses avec 3 et les tournesols avec 4." 
+                                   Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,0,0,20"/>
                         <TextBlock Text="Touche ECHAP pour mettre en pause." 
                                    Foreground="White" FontSize="16" TextWrapping="Wrap" Margin="0,5,0,0"/>
                     </StackPanel>

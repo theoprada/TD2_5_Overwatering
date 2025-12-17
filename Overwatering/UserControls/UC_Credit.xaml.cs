@@ -11,6 +11,7 @@ namespace Overwatering
 
         private void butRetour_Click(object sender, RoutedEventArgs e)
         {
+            if (Application.Current.MainWindow is MainWindow mw2) mw2.JouerSonBouton();
             if (Application.Current.MainWindow is MainWindow mw) mw.AfficheMenu();
         }
     }
