@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Overwatering.Fleur">
+    <Position X="13.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAgAAAAAAAAAAAQAAAAAAQAA=</HashCode>
+      <FileName>ClassesJeu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Overwatering.Client">
+    <Position X="15.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>ClassesJeu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Overwatering.MainWindow" Collapsed="true">
+    <Position X="2.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAFQACUAAgAAIAAACAAEAABAAFAAAAABAAACAUCAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Boutique" Collapsed="true">
+    <Position X="8.5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>RAAAAAAAAAAAAAACAAAAAIACAAAAgAMAAAAAIAAAAAA=</HashCode>
+      <FileName>UserControls\UC_Boutique.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Credits" Collapsed="true">
+    <Position X="11.75" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UC_Credit.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_GameOver" Collapsed="true">
+    <Position X="7.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UC_GameOver.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Jeu" Collapsed="true">
+    <Position X="5" Y="2" Width="1.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>PAAAOCgIhEAbIg3QACK4AICIMIECAAQAABFggBCAEAA=</HashCode>
+      <FileName>UserControls\UC_Jeu.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Menu" Collapsed="true">
+    <Position X="6.75" Y="2" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAIAABAAAAAAAAAAAAAAAAAAAAAAAAgAAACAA=</HashCode>
+      <FileName>UserControls\UC_Menu.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Parametres" Collapsed="true">
+    <Position X="10.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAEAAAAAQAAAAAAABAAAAAAAAAAAAABA=</HashCode>
+      <FileName>UserControls\UC_Parametres.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Overwatering.UC_Regles" Collapsed="true">
+    <Position X="13.25" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>UserControls\UC_Regles.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Controls.UserControl" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Windows.Window" Collapsed="true">
+    <Position X="3" Y="0.75" Width="1.25" />
+    <TypeIdentifier />
+  </Class>
+  <Enum Name="Overwatering.Stade">
+    <Position X="15.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAiAAABAAA=</HashCode>
+      <FileName>ClassesJeu.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Overwatering.TypeFleur">
+    <Position X="13.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClassesJeu.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
