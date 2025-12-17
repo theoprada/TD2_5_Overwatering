@@ -11,15 +11,11 @@ namespace Overwatering
             ChargerDonnees();
         }
 
-        // 1. Lire les infos sauvegardées
         private void ChargerDonnees()
         {
             if (Application.Current.MainWindow is MainWindow mw)
             {
-                // On remet le slider au bon endroit
                 sliderVolume.Value = mw.VolumeJeu;
-
-                // On remet la liste déroulante sur le bon choix
                 if (mw.TypeControle == "ZQSD")
                     ComboControles.SelectedIndex = 0;
                 else
@@ -27,7 +23,7 @@ namespace Overwatering
             }
         }
 
-        // 2. Sauvegarder et Quitter
+        // Sauvegarder et Quitter
         private void SauvegarderEtQuitter()
         {
             if (Application.Current.MainWindow is MainWindow mw)
@@ -40,8 +36,6 @@ namespace Overwatering
                     mw.TypeControle = "ZQSD";
                 else
                     mw.TypeControle = "FLECHES";
-
-                // Retour au menu
                 mw.AfficheMenu();
             }
         }
@@ -60,7 +54,6 @@ namespace Overwatering
             SauvegarderEtQuitter();
         }
 
-        // (Laisse la méthode Loaded vide ou supprime-la du XAML si elle t'embête)
         private void UCParametres_Loaded(object sender, RoutedEventArgs e) { }
     }
 }

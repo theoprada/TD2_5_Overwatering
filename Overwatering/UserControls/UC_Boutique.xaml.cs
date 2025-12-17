@@ -5,7 +5,7 @@ namespace Overwatering
 {
     public partial class UC_Boutique : UserControl
     {
-        // Prix des graines (Constantes pour la propreté du code - Barème)
+        // Prix graines
         const int PRIX_MARGUERITE = 10;
         const int PRIX_ROSE = 20;
         const int PRIX_TOURNESOL = 30;
@@ -20,7 +20,7 @@ namespace Overwatering
             MettreAJourAffichage();
         }
 
-        // Fonction pour rafraîchir les textes (Argent et Stocks)
+        // rafraîchir les textes (Argent et Stocks)
         private void MettreAJourAffichage()
         {
             if (Application.Current.MainWindow is MainWindow mw)
@@ -87,8 +87,7 @@ namespace Overwatering
         {
             if (Application.Current.MainWindow is MainWindow mw2) mw2.JouerSonBouton();
             if (Application.Current.MainWindow is MainWindow mw)
-            {
-                // On relance le jeu. 
+            { 
                 mw.LancerJeu();
             }
         }

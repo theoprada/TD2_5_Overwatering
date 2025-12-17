@@ -11,38 +11,34 @@ namespace Overwatering
 {
     public partial class UC_Jeu : UserControl
     {
-        // --- CONSTANTES ---
         private const int JardinRows = 3;
         private const int JardinCols = 3;
         private const int PanierSize = 4;
 
-        // --- VARIABLES STATIQUES ---
         private static Fleur?[,] jardin = new Fleur?[JardinRows, JardinCols];
         private static Fleur?[] panier = new Fleur?[PanierSize];
         private static Client? clientActuel = null;
 
-        // --- MOTEUR ---
+        // moteur
         private readonly DispatcherTimer gameTimer = new DispatcherTimer();
         private readonly Button?[,] boutonsJardin = new Button?[JardinRows, JardinCols];
 
-        // --- PHYSIQUE ---
+        // physique
         private double persoX = 375, persoY = 200;
         private bool haut, bas, gauche, droite;
         private bool utiliseZQSD = true;
 
-        // Inertie
+        // inertie déplacement
         private double velX = 0.0, velY = 0.0;
         private double maxSpeed = 240.0;
         private double acceleration = 2000.0;
         private double damping = 8.0;
 
-        // Rendu
         private Stopwatch stopwatch;
         private TimeSpan lastFrameTime;
         private bool isRunning = true;
         private TranslateTransform? imgTransform;
 
-        // --- GAMEPLAY ---
         private readonly Rect zoneBoutique = new Rect(550, 50, 150, 150);
         private string outilEnMain = "Main";
         private string direction = "Recule";
@@ -54,11 +50,11 @@ namespace Overwatering
         {
             InitializeComponent();
 
-            // 1. Timer Logique (0.1s)
+            // Timer Logique (0.1s)
             gameTimer.Interval = TimeSpan.FromMilliseconds(100);
             gameTimer.Tick += GameLogicTick;
 
-            // 2. Timer Rendu (60 FPS)
+            // Timer Rendu (60 FPS)
             stopwatch = Stopwatch.StartNew();
             lastFrameTime = stopwatch.Elapsed;
             CompositionTarget.Rendering += OnRendering;
@@ -99,7 +95,7 @@ namespace Overwatering
             gameTimer.Start();
         }
 
-        // --- PHYSIQUE & COLLISIONS (C'est ici qu'on a modifié !) ---
+        // collisions
         private void OnRendering(object? sender, EventArgs e)
         {
             if (!isRunning || (MenuPauseOverlay != null && MenuPauseOverlay.Visibility == Visibility.Visible)) return;
@@ -109,7 +105,6 @@ namespace Overwatering
             if (dt > 0.05) dt = 0.05;
             lastFrameTime = now;
 
-            // Inputs
             double inputX = 0, inputY = 0;
             if (haut) inputY -= 1;
             if (bas) inputY += 1;
@@ -128,41 +123,37 @@ namespace Overwatering
             velX += (targetVX - velX) * (acceleration * dt / maxSpeed) * 5;
             velY += (targetVY - velY) * (acceleration * dt / maxSpeed) * 5;
 
-            // --- NOUVELLE GESTION DES COLLISIONS ---
 
-            // 1. Calcul de la position future théorique
+            // Calcul position future
             double futurX = persoX + velX * dt;
             double futurY = persoY + velY * dt;
 
-            // 2. Vérification des murs (Basé sur ton tracé rouge)
-
-            // A. Mur Gauche (Les arbres à gauche)
+            // Mur Gauche
             if (futurX < 80)
             {
                 futurX = 80;
                 velX = 0; // Stop l'inertie
             }
 
-            // B. Mur Droite (Les arbres à droite)
+            // Mur Droite
             if (futurX > 670)
             {
                 futurX = 670;
                 velX = 0;
             }
 
-            // C. Mur Bas (Les arbres en bas)
+            // Mur Bas
             if (futurY > 340)
             {
                 futurY = 340;
                 velY = 0;
             }
 
-            // D. Mur Haut (Complexe : arbres à gauche, passage à droite)
-            bool dansCheminBoutique = (futurX > 520); // Est-ce qu'on est face au chemin ?
+            // Mur Haut
+            bool dansCheminBoutique = (futurX > 520);
 
             if (dansCheminBoutique)
             {
-                // On peut monter plus haut (vers la boutique)
                 if (futurY < 50)
                 {
                     futurY = 50;
@@ -171,7 +162,6 @@ namespace Overwatering
             }
             else
             {
-                // On est bloqué plus bas par les arbres
                 if (futurY < 130)
                 {
                     futurY = 130;
@@ -179,21 +169,17 @@ namespace Overwatering
                 }
             }
 
-            // 3. Application de la position validée
             persoX = futurX;
             persoY = futurY;
 
-            // 4. Mise à jour visuelle
             if (imgTransform != null)
             {
                 imgTransform.X = persoX;
                 imgTransform.Y = persoY;
             }
 
-            // Interactions
             VerifierEntreeBoutique();
 
-            // Animation
             bool bouge = (Math.Abs(velX) > 10.0 || Math.Abs(velY) > 10.0);
             if (bouge)
             {
@@ -214,12 +200,12 @@ namespace Overwatering
             }
         }
 
-        // --- LOGIQUE (Timer) ---
+        // Timer
         private void GameLogicTick(object? sender, EventArgs e)
         {
             if (MenuPauseOverlay != null && MenuPauseOverlay.Visibility == Visibility.Visible) return;
 
-            // A. Croissance des plantes
+            // Croissance des plantes
             for (int i = 0; i < JardinRows; i++)
             {
                 for (int j = 0; j < JardinCols; j++)
@@ -248,7 +234,7 @@ namespace Overwatering
                 }
             }
 
-            // B. Gestion du Client
+            // Client
             if (clientActuel == null)
             {
                 tempsApparitionClient++;
@@ -284,7 +270,6 @@ namespace Overwatering
             }
         }
 
-        // --- INTERACTIONS ---
         private void CaseJardin_Click(object? sender, RoutedEventArgs e)
         {
             if (sender is not Button btn || btn.Tag is not Point p) return;
@@ -294,7 +279,7 @@ namespace Overwatering
             var f = jardin[x, y];
             if (Application.Current.MainWindow is not MainWindow mw) return;
 
-            // 1. PLANTER
+            // Plantation graines
             if (f == null)
             {
                 if (outilEnMain == "Graine_Marguerite" && mw.GrainesMarguerite > 0)
@@ -314,17 +299,16 @@ namespace Overwatering
                 }
                 MettreAJourImagePlante(x, y, jardin[x, y]);
             }
-            // 2. RECOLTER
+            // Recolter
             else if (f.StadeActuel == Stade.Adulte)
             {
-                // Son de récolte (si tu as implémenté la méthode dans MainWindow)
                 try { mw.JouerSonRecolte(); } catch { }
 
                 AjouterAuPanier(f);
                 jardin[x, y] = null;
                 MettreAJourImagePlante(x, y, null);
             }
-            // 3. NETTOYER (Si Morte)
+            // Nettoyer plante fanée
             else if (f.StadeActuel == Stade.Fanee || f.StadeActuel == Stade.Pourrie)
             {
                 jardin[x, y] = null;
@@ -332,7 +316,6 @@ namespace Overwatering
             }
         }
 
-        // --- HELPERS ---
         private void InitialiserGrilleGraphique()
         {
             if (GrilleJardin == null) return;
@@ -347,7 +330,7 @@ namespace Overwatering
                         BorderBrush = Brushes.Transparent,
                         Tag = new Point(i, j)
                     };
-                    btn.Focusable = false; // Empêche le focus des boutons
+                    btn.Focusable = false;
                     btn.Click += CaseJardin_Click;
                     btn.Content = new Image();
                     boutonsJardin[i, j] = btn;
@@ -460,7 +443,6 @@ namespace Overwatering
                         mw.Argent += 15;
                         if (txtArgent != null) txtArgent.Text = mw.Argent.ToString();
 
-                        // Son de vente (si implémenté)
                         try { mw.JouerSonPiece(); } catch { }
                     }
 
@@ -488,7 +470,7 @@ namespace Overwatering
             try { if (ImgPerso != null) ImgPerso.Source = new BitmapImage(new Uri(chemin, UriKind.Relative)); } catch { }
         }
 
-        // --- INPUTS ---
+        //Touches
         private void TraiterTouche(Key key, bool estEnfoncee)
         {
             // Outils
@@ -508,7 +490,8 @@ namespace Overwatering
                 if (key == Key.Q) gauche = estEnfoncee;
                 if (key == Key.D) droite = estEnfoncee;
             }
-            else // Mouvement FLÈCHES
+            // Mouvement flèches
+            else
             {
                 if (key == Key.Up) haut = estEnfoncee;
                 if (key == Key.Down) bas = estEnfoncee;
@@ -517,7 +500,6 @@ namespace Overwatering
             }
         }
 
-        // On utilise PreviewKeyDown pour être sûr d'attraper les flèches avant qu'elles ne changent le focus
         private void UC_Jeu_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape) { TogglePause(); e.Handled = true; return; }
@@ -525,7 +507,7 @@ namespace Overwatering
             if (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right)
             {
                 TraiterTouche(e.Key, true);
-                e.Handled = true; // Empêche le focus de changer
+                e.Handled = true;
             }
             else
             {
@@ -538,7 +520,7 @@ namespace Overwatering
             TraiterTouche(e.Key, false);
         }
 
-        // --- PAUSE ---
+        // Pause
         private void TogglePause()
         {
             if (MenuPauseOverlay == null) return;
@@ -568,7 +550,7 @@ namespace Overwatering
             if (Application.Current.MainWindow is MainWindow mw2) mw2.AfficheMenu();
         }
 
-        // --- RESET STATIC (Pour Game Over) ---
+        // Reset des stats pour le gameover
         public static void ResetDonneesStatic()
         {
             jardin = new Fleur?[JardinRows, JardinCols];

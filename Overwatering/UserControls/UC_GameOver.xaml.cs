@@ -15,7 +15,6 @@ namespace Overwatering
             if (Application.Current.MainWindow is MainWindow mw2) mw2.JouerSonBouton();
             if (Application.Current.MainWindow is MainWindow mw)
             {
-                // On appelle la méthode qui remet tout à zéro
                 mw.LancerNouvellePartie();
             }
         }
